@@ -2,12 +2,12 @@
   "author": "Tim Welch <tim.j.welch@gmail.com>",
   "organization": "SeaSketch",
   "region": "us-west-1",
-  "clients": [
-  ],
+  "clients": [],
   "preprocessingFunctions": [
     "src/functions/clipToOceanEez.ts"
   ],
   "geoprocessingFunctions": [
-    "src/functions/minWidth.ts"
+    "src/functions/minWidth.ts",
+    "src/functions/area.ts"
   ]
 }

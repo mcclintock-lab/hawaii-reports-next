@@ -1,0 +1,8 @@
+/**
+ * Area of ocean within eez minus land in square miles. Calculated by drawing
+ * sketch around hawaiian islands in original seasketch project, exporting the
+ * resulting sketch, calling turf/area function on it and converting square
+ * meters to square miles */
+export const STUDY_REGION_AREA_SQ_METERS = 8927427519.888056;
+export const STUDY_REGION_AREA_SQ_MI =
+  STUDY_REGION_AREA_SQ_METERS / 1000 / 1.609344; // Convert to square miles

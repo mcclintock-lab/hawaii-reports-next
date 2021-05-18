@@ -1,0 +1,51 @@
+{
+    "type": "Feature",
+    "properties": {
+        "OBJECTID": 75,
+        "OBJECTID_1": 75,
+        "Site_Label": "Penguin Bank Bottomfish Restricted Fishing Area (F)",
+        "Site_Name": "Penguin Bank (BRFA F)",
+        "URL": "http://dlnr.hawaii.gov/dar/fishing/bottom-fishing/",
+        "Legislatio": "HAR 13-94, HAR 13-74",
+        "HAR_link": "http://dlnr.hawaii.gov/dar/files/2014/05/ch94.pdf",
+        "Statute_li": "N/A",
+        "MMA_type": "FMA",
+        "MMA_design": "Bottomfish Restricted Fishing Area",
+        "Location_1": "Maui Nui",
+        "Permitted_": "N/A",
+        "Prohibited": "Unlawful for any person to take or possess bottomfish while in a vessel that is drifting or anchored within any bottomfish restricted fishing area, except in times of emergency. Bottomfish species covered by these rules include: a) ‘ula‘ula koa‘e o",
+        "Exceptions": "N/A",
+        "Penalty_1": "A person violating this chapter, or the terms and conditions of any license or permit issued as provided by this chapter, shall be punished as provided by law.",
+        "Additional": " ",
+        "Shape_Leng": 67423.6726092,
+        "Shape_Length": 67526.29094161505,
+        "Shape_Area": 268646494.3244679
+    },
+    "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+            [
+                [
+                    -157.36663720132358,
+                    20.91691162322633
+                ],
+                [
+                    -157.56663514778998,
+                    20.916910002553966
+                ],
+                [
+                    -157.56663197139318,
+                    21.033580628792176
+                ],
+                [
+                    -157.36664015268366,
+                    21.033581497194554
+                ],
+                [
+                    -157.36663720132358,
+                    20.91691162322633
+                ]
+            ]
+        ]
+    }
+}
