@@ -7,12 +7,7 @@ import {
   sketchArea,
 } from "@seasketch/geoprocessing";
 
-/**
- * Area of ocean within eez minus land in square meters. Calculated by drawing
- * sketch around hawaiian islands in original seasketch project, exporting the
- * resulting sketch, calling turf/area function on it and converting square
- * meters to square miles */
-export const STUDY_REGION_AREA_SQ_METERS = 8927427519.888056;
+import { STUDY_REGION_AREA_SQ_METERS } from "../functions/areaConstants";
 
 export interface AreaResults {
   /** area of the sketch in square meters */

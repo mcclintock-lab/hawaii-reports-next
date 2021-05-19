@@ -2,8 +2,6 @@ import {
   Sketch,
   SketchCollection,
   GeoprocessingHandler,
-  sketchArea,
-  isCollection,
   Feature,
   Polygon,
 } from "@seasketch/geoprocessing";
