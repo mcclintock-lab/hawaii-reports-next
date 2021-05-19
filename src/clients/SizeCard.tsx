@@ -19,7 +19,6 @@ const Percent = new Intl.NumberFormat("en", {
 const SizeCard = () => (
   <ResultsCard title="Size" functionName="area">
     {(data: AreaResults) => {
-      console.log("data", data);
       const areaDisplay = Number.format(
         Math.round(squareMeterToKilometer(data.area))
       );
