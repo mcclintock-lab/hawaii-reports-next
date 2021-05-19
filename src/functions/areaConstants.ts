@@ -4,5 +4,4 @@
  * resulting sketch, calling turf/area function on it and converting square
  * meters to square miles */
 export const STUDY_REGION_AREA_SQ_METERS = 8927427519.888056;
-export const STUDY_REGION_AREA_SQ_MI =
-  STUDY_REGION_AREA_SQ_METERS / 1000 / 1.609344; // Convert to square miles
+export const STUDY_REGION_AREA_SQ_KM = STUDY_REGION_AREA_SQ_METERS / 1000;

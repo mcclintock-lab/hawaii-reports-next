@@ -2,7 +2,11 @@
   "author": "Tim Welch <tim.j.welch@gmail.com>",
   "organization": "SeaSketch",
   "region": "us-west-1",
-  "clients": [],
+  "clients": [{
+    "name": "Overview",
+    "description": "Overview report",
+    "source": "src/clients/Overview.tsx"
+  }],
   "preprocessingFunctions": [
     "src/functions/clipToOceanEez.ts"
   ],

@@ -6,7 +6,13 @@ import {
   GeoprocessingHandler,
   sketchArea,
 } from "@seasketch/geoprocessing";
-import { STUDY_REGION_AREA_SQ_MI } from "./areaConstants";
+
+/**
+ * Area of ocean within eez minus land in square meters. Calculated by drawing
+ * sketch around hawaiian islands in original seasketch project, exporting the
+ * resulting sketch, calling turf/area function on it and converting square
+ * meters to square miles */
+export const STUDY_REGION_AREA_SQ_METERS = 8927427519.888056;
 
 export interface AreaResults {
   /** area of the sketch in square meters */
@@ -18,13 +24,13 @@ export interface AreaResults {
 }
 
 export async function area(
-  sketch: Sketch | SketchCollection | Feature | FeatureCollection
+  feature: Sketch | SketchCollection | Feature | FeatureCollection
 ): Promise<AreaResults> {
-  const area = sketchArea(sketch);
+  const area = sketchArea(feature);
   return {
     area,
-    percPlanningArea: area / STUDY_REGION_AREA_SQ_MI,
-    areaUnit: "square miles",
+    percPlanningArea: area / STUDY_REGION_AREA_SQ_METERS,
+    areaUnit: "square meters",
   };
 }
 

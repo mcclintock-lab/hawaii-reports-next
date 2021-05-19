@@ -4,13 +4,14 @@ import {
   GeoprocessingHandler,
   sketchArea,
   isCollection,
+  Feature,
+  Polygon,
 } from "@seasketch/geoprocessing";
 import bbox from "@turf/bbox";
 import distance from "@turf/distance";
 import explode from "@turf/explode";
 import bboxPolygon from "@turf/bbox-polygon";
 import { AllGeoJSON, BBox } from "@turf/helpers";
-import { Feature, Polygon } from "geojson";
 import * as constants from "./minWidthConstants";
 
 export interface MinWidthResults {
@@ -36,15 +37,15 @@ async function minWidth(
     minFeature: boxPoly,
     minWidth: Math.min(
       distance(boxPoints.features[0], boxPoints.features[1], {
-        units: constants.SKETCH_LENGTH_UNIT,
+        units: constants.MIN_WIDTH_UNIT,
       }),
       distance(boxPoints.features[1], boxPoints.features[2], {
-        units: constants.SKETCH_LENGTH_UNIT,
+        units: constants.MIN_WIDTH_UNIT,
       })
     ),
     minRecommendedMinWidth: constants.MIN_RECOMMENDED_MIN_WIDTH,
     maxRecommendedMinWidth: constants.MAX_RECOMMENDED_MIN_WIDTH,
-    widthUnit: constants.SKETCH_LENGTH_UNIT,
+    widthUnit: constants.MIN_WIDTH_UNIT,
   };
 }
 
