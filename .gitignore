@@ -4,7 +4,5 @@ cdk.out
 .build
 .build-web
 .workspace.env
-data/src/**/*EEZ_land_union*
-data/src/**/*land_polygons*
-data/src/**/*land-polygons*
-data/src/**/*.zip
+data/src/**
+data/dist/**
