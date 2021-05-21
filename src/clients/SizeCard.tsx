@@ -4,6 +4,7 @@ import {
   squareMeterToKilometer,
 } from "@seasketch/geoprocessing/client";
 import { STUDY_REGION_AREA_SQ_METERS } from "../functions/areaConstants";
+import { KeySection } from "../components/KeySection";
 
 // Import type definitions from function
 import { AreaResults } from "../functions/area";
@@ -34,10 +35,10 @@ const SizeCard = () => (
             and juveniles, so larger areas may include more species.
           </p>
 
-          <p>
+          <KeySection>
             📐 The sketch is <b>{areaDisplay}</b> {areaUnitDisplay}, which is{" "}
-            {percDisplay} of the total planning area.
-          </p>
+            <b>{percDisplay}</b> of the total planning area.
+          </KeySection>
         </>
       );
     }}

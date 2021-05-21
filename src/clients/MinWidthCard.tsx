@@ -3,6 +3,7 @@ import {
   ResultsCard,
   SketchAttributesCard,
 } from "@seasketch/geoprocessing/client";
+import { KeySection } from "../components/KeySection";
 
 // Import the results type definition from your functions to type-check your
 // component render functions
@@ -38,13 +39,14 @@ const MinWidthCard = () => (
             </b>
             . Note: the suggested minimum width may change in the future.
           </p>
-          <p>
+          <KeySection>
+            This design has a minimum width of{" "}
             <b>
-              This design has a minimum width of {minWidthDisplay}{" "}
-              {MIN_WIDTH_UNIT}, which is {minWidthDirection} the minimum
-              recommended diameter.
+              {minWidthDisplay} {MIN_WIDTH_UNIT}
             </b>
-          </p>
+            , which is <b>{minWidthDirection}</b> the minimum recommended
+            diameter.
+          </KeySection>
           <div
             style={{
               textAlign: "center",
