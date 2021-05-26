@@ -5,13 +5,14 @@ import {
   Feature,
   Polygon,
   VectorDataSource,
-  isSketch,
   toolbox,
+  isSketch,
+  isSketchCollection,
+  unpackSketches,
 } from "@seasketch/geoprocessing";
-import overlap from "@turf/boolean-overlap";
+import bbox from "@turf/bbox";
 
 const nameProperty = "Site_Label";
-
 type MpaFeature = Feature<Polygon, { gid: number; [nameProperty]: string }>;
 
 export interface OverlapMpaResults {
@@ -27,8 +28,12 @@ const SubdividedOsmLandSource = new VectorDataSource<MpaFeature>(
 export async function overlapMpa(
   sketch: Sketch | SketchCollection
 ): Promise<OverlapMpaResults> {
-  const mpas = await SubdividedOsmLandSource.fetch(sketch.bbox);
-  const overlapFeatures = await toolbox.overlap(sketch, mpas, nameProperty);
+  const mpas = await SubdividedOsmLandSource.fetch(sketch.bbox || bbox(sketch));
+  const overlapFeatures = await toolbox.overlap(
+    unpackSketches(sketch),
+    mpas,
+    nameProperty
+  );
 
   return {
     mpas: overlapFeatures.map((f) => f.properties[nameProperty]),
