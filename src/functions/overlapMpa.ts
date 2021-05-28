@@ -36,7 +36,9 @@ export async function overlapMpa(
   );
 
   return {
-    mpas: overlapFeatures.map((f) => f.properties[nameProperty]),
+    mpas: overlapFeatures
+      .map((f) => f.properties[nameProperty])
+      .sort((a, b) => a.localeCompare(b)),
   };
 }
 
