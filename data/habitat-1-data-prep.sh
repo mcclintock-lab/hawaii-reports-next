@@ -9,7 +9,7 @@ if [ ! -d $SRC_DATASET ]; then
 fi
 
 # Clean up old data
-rm -rf dist/habitat*
+rm -rf $DIST_DATASET
 
 # Get package layer names
 mapfile -t PKG_LAYERS < <( ogrinfo -al $SRC_DATASET | grep "Layer name:" | sed -e "s/^Layer name: //" )
