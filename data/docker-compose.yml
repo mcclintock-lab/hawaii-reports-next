@@ -24,6 +24,7 @@ services:
     # within the workspace. 
     volumes:
       - "..:/project"
+      - $HOME/.aws/credentials:/root/.aws/credentials:ro
     # Switch to the data directory on startup
     working_dir: /project/data
     depends_on:
