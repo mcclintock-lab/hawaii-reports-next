@@ -15,6 +15,7 @@
   "geoprocessingFunctions": [
     "src/functions/minWidth.ts",
     "src/functions/area.ts",
-    "src/functions/overlapMpa.ts"
+    "src/functions/overlapMpa.ts",
+    "src/functions/habitat.ts"
   ]
 }
