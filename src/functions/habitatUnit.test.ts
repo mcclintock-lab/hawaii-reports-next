@@ -2,7 +2,7 @@
  * @group unit
  */
 import Handler from "./habitat";
-import habitatAreaStats from "../../data/dist/habitatAreaStats.json";
+import habitatAreaStats from "../../data/precalc/habitatAreaStats.json";
 import {
   getExamplePolygonSketches,
   getExamplePolygonSketchCollections,

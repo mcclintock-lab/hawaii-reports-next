@@ -16,7 +16,7 @@ import { featureCollection as fc } from "@turf/helpers";
 import { HAB_TYPE_FIELD } from "./habitatConstants";
 
 // Must be generated first
-import habitatAreaStats from "../../data/dist/habitatAreaStats.json";
+import habitatAreaStats from "../../data/precalc/habitatAreaStats.json";
 
 type HabitatFeature = Feature<
   Polygon,

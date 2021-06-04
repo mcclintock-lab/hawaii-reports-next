@@ -15,7 +15,7 @@ const stats = calcAreaStats(
   "D_STRUCT"
 );
 
-const filename = `${__dirname}/dist/habitatAreaStats.json`;
+const filename = `${__dirname}/precalc/habitatAreaStats.json`;
 fs.writeFile(filename, JSON.stringify(stats, null, 2), (err) =>
   err
     ? console.error("Error", err)
