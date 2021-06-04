@@ -1,0 +1,92 @@
+{
+  "totalArea": 3647691457.04892,
+  "areaByType": [
+    {
+      "D_STRUCT": "Land",
+      "totalArea": 3007560.786278046,
+      "percArea": 0.0008245107410239251,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Aggregated Patch Reef",
+      "totalArea": 1712261.1335880496,
+      "percArea": 0.00046940953031518587,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Rock/Boulder",
+      "totalArea": 290058791.36261517,
+      "percArea": 0.07951845565284749,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Pavement with Sand Channels",
+      "totalArea": 74026265.93758683,
+      "percArea": 0.020294004251520784,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Rubble",
+      "totalArea": 3281271.9847371248,
+      "percArea": 0.0008995475695720606,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Pavement",
+      "totalArea": 437918134.05705416,
+      "percArea": 0.12005350211592228,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Artificial",
+      "totalArea": 3176616.081259236,
+      "percArea": 0.0008708565728936963,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Mud",
+      "totalArea": 63243886.73118358,
+      "percArea": 0.01733805818717726,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Sand",
+      "totalArea": 325966563.7541168,
+      "percArea": 0.08936242760450809,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Aggregate Reef",
+      "totalArea": 66486389.78453189,
+      "percArea": 0.018226977409520582,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Unknown",
+      "totalArea": 2332086220.84201,
+      "percArea": 0.6393320949159252,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Spur and Groove",
+      "totalArea": 40659354.889427565,
+      "percArea": 0.011146599258239366,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Individual Patch Reef",
+      "totalArea": 1921403.8147029472,
+      "percArea": 0.0005267451585001694,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Scattered Coral/Rock",
+      "totalArea": 4146735.889828722,
+      "percArea": 0.0011368110320338174,
+      "sketchArea": 0
+    }
+  ],
+  "metadata": {
+    "units": "meters"
+  }
+}

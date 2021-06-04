@@ -6,7 +6,7 @@ psql -t <<SQL
 BEGIN;
   WITH complex_areas_to_subdivide AS (
       DELETE FROM ${LAYER_NAME}
-      WHERE ST_NPoints(geom) > 256
+      WHERE ST_NPoints(geom) > ${NUM_POINTS}
       returning gid, geom, ${COLUMNS_MINUS_GEOM_GID}
   )
 

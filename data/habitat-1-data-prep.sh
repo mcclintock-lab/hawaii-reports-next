@@ -3,13 +3,17 @@
 
 source ./habitat.env
 
+SRC_DATASET=src/split_habitats.gdb
+DIST_DATASET=dist/habitat.gpkg
+
 if [ ! -d $SRC_DATASET ]; then
   echo 'Missing src dataset'
   exit 0
 fi
 
 # Clean up old data
-rm -rf $DIST_DATASET
+rm -rf dist/habitat.gpkg
+rm -rf dist/habitat.geojson
 
 # Get package layer names
 mapfile -t PKG_LAYERS < <( ogrinfo -al $SRC_DATASET | grep "Layer name:" | sed -e "s/^Layer name: //" )
@@ -24,3 +28,5 @@ do
   ogr2ogr -t_srs "EPSG:4326" -append -nln $LAYER_NAME -f GPKG -explodecollections -dialect OGRSQL -sql "SELECT $ATTRIBS_TO_KEEP FROM $PKG_LAYER_NAME" $DIST_DATASET $SRC_DATASET
 done
 
+# Create geojson version for precalc
+ogr2ogr -append -f GeoJSON dist/habitat.geojson dist/habitat.gpkg habitat

@@ -4,6 +4,8 @@
 source ./habitat.env
 source ./util/cleanupDb.sh
 
+DIST_DATASET=dist/habitat.gpkg
+
 if [ ! -f ${DIST_DATASET} ]; then
   echo 'Missing dist dataset, did you run data-prep script?'
   exit 0

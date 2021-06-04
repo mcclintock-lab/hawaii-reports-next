@@ -6,8 +6,6 @@ import {
   Polygon,
   VectorDataSource,
   toolbox,
-  isSketch,
-  isSketchCollection,
   unpackSketches,
 } from "@seasketch/geoprocessing";
 import bbox from "@turf/bbox";

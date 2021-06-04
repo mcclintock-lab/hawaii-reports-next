@@ -2,12 +2,18 @@
  * @group unit
  */
 import { overlapMpa } from "./overlapMpa";
-import { getExampleSketchesByName } from "@seasketch/geoprocessing/scripts/testing";
+import { getExampleSketchCollections } from "@seasketch/geoprocessing/scripts/testing";
 
 describe("Unit tests", () => {
-  test("overlap-test sketch should overlap with 14 MMAs", async () => {
-    const examples = await getExampleSketchesByName();
-    const result = await overlapMpa(examples["overlap-test"]);
-    expect(result.mpas.length).toBe(14);
+  test("hawaii-network-test sketch collection should overlap with 14 MMAs", async () => {
+    const examples = await getExampleSketchCollections("hawaii-network-test");
+
+    // collection
+    const result = await overlapMpa(examples[0]);
+    expect(result.mpas.length).toBe(3);
+
+    // individual sketch
+    const result2 = await overlapMpa(examples[0].features[0]);
+    expect(result2.mpas.length).toBe(1);
   });
 });
