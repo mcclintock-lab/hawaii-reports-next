@@ -1,5 +1,6 @@
 import area from "@turf/area";
 import { FeatureCollection, Polygon, Feature } from "@seasketch/geoprocessing";
+import { strict as assert } from "assert";
 
 /**
  * Calculates area stats for a given feature collection.
@@ -46,11 +47,16 @@ export function calcAreaStats(
   );
 
   // Calculate percentage area by type
-  const areaStatsByType = Object.keys(areaByType).map((type) => ({
-    [typeProperty]: type,
-    totalArea: areaByType[type],
-    percArea: areaByType[type] / totalArea,
-  }));
+  const areaStatsByType = Object.keys(areaByType).map((type) => {
+    assert(areaByType[type] >= 0 && areaByType[type] <= totalArea);
+    return {
+      [typeProperty]: type,
+      totalArea: areaByType[type],
+      percArea: areaByType[type] / totalArea,
+    };
+  });
+
+  assert(totalArea && totalArea > 0);
 
   return {
     totalArea,

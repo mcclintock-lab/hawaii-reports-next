@@ -7,6 +7,11 @@
       "name": "Overview",
       "description": "Overview report",
       "source": "src/clients/Overview.tsx"
+    },
+    {
+      "name": "Habitat",
+      "description": "Habitat report",
+      "source": "src/clients/Habitat.tsx"
     }
   ],
   "preprocessingFunctions": [

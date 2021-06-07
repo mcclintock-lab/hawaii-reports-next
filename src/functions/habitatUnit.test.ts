@@ -13,10 +13,8 @@ import { HAB_TYPE_FIELD } from "./habitatConstants";
 const habitat = Handler.func;
 
 describe("Habitat Unit tests", () => {
-  test.only("hawaii-habitat-kaunakakai - Habitat stats are complete", async () => {
-    const example = (
-      await getExamplePolygonSketches("hawaii-habitat-kaunakakai")
-    )[0];
+  test.only("hawaii-kaunakakai - Habitat stats are complete", async () => {
+    const example = (await getExamplePolygonSketches("hawaii-kaunakakai"))[0];
     const result = await habitat(example);
     // Test perc area between 0 and 1 for each hab type
     expect(result.totalArea).toBe(habitatAreaStats.totalArea);

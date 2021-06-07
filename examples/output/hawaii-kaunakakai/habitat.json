@@ -23,7 +23,7 @@
       "D_STRUCT": "Pavement with Sand Channels",
       "totalArea": 74026265.93758683,
       "percArea": 0.020294004251520784,
-      "sketchArea": 0.004450444193109442
+      "sketchArea": 0.004474563169878489
     },
     {
       "D_STRUCT": "Rubble",
@@ -35,13 +35,13 @@
       "D_STRUCT": "Pavement",
       "totalArea": 437918134.05705416,
       "percArea": 0.12005350211592228,
-      "sketchArea": 0.0018986256375777332
+      "sketchArea": 0.0019209345504821863
     },
     {
       "D_STRUCT": "Artificial",
       "totalArea": 3176616.081259236,
       "percArea": 0.0008708565728936963,
-      "sketchArea": 0.0002539644412601372
+      "sketchArea": 0.00020848284860312287
     },
     {
       "D_STRUCT": "Mud",
@@ -53,7 +53,7 @@
       "D_STRUCT": "Sand",
       "totalArea": 325966563.7541168,
       "percArea": 0.08936242760450809,
-      "sketchArea": 0.0008656280035197651
+      "sketchArea": 0.0008949149336506086
     },
     {
       "D_STRUCT": "Aggregate Reef",

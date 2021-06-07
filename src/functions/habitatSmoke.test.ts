@@ -3,7 +3,7 @@
  */
 import Handler from "./habitat";
 import {
-  getExamplePolygonSketches,
+  getExamplePolygonSketchAll,
   writeResultOutput,
 } from "@seasketch/geoprocessing/scripts/testing";
 
@@ -14,7 +14,7 @@ describe("Basic smoke tests", () => {
     expect(typeof habitat).toBe("function");
   });
   test("tests run against all hawaii polygon examples", async () => {
-    const examples = await getExamplePolygonSketches("hawaii-");
+    const examples = await getExamplePolygonSketchAll("hawaii-");
     for (const example of examples) {
       console.log(`testing ${example.properties.name}`);
       const result = await habitat(example);
