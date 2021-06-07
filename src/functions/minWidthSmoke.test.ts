@@ -14,7 +14,7 @@ describe("Basic smoke tests", () => {
     expect(typeof minWidth).toBe("function");
   });
   test("tests run against all examples", async () => {
-    const examples = await getExampleSketches();
+    const examples = await getExampleSketches("gp-min-width");
     for (const example of examples) {
       const result = await minWidth(example);
       expect(result).toBeTruthy();
