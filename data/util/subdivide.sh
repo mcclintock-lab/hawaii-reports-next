@@ -1,7 +1,11 @@
 #!/bin/bash
 # Subdivide features
 
-echo "subdividing features"
+# Get the 'other' attributes we are
+# https://www.postgresonline.com/journal/archives/41-How-to-SELECT--ALL-EXCEPT-some-columns-in-a-table.html
+COLUMNS_MINUS_GEOM_GID=(`psql -t -c "SELECT array_to_string(ARRAY(SELECT '\"' || c.column_name || '\"' FROM information_schema.columns As c WHERE table_name = '${LAYER_NAME}'  AND  c.column_name NOT IN('geom', 'gid')), ',');"`)
+
+echo "subdividing features keeping attributes ${COLUMNS_MINUS_GEOM_GID}"
 psql -t <<SQL
 BEGIN;
   WITH complex_areas_to_subdivide AS (

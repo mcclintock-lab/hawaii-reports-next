@@ -55,10 +55,7 @@ const habSource = new VectorDataSource<HabitatFeature>(
 async function habitat(
   sketch: Feature<Polygon> | FeatureCollection<Polygon>
 ): Promise<HabitatResults> {
-  const habFeatures = await habSource.fetchUnion(
-    sketch.bbox || bbox(sketch),
-    "GID"
-  );
+  const habFeatures = await habSource.fetch(sketch.bbox || bbox(sketch));
 
   // Dissolve down to a single feature
   const sketchFC = isFeatureCollection(sketch)
@@ -69,18 +66,12 @@ async function habitat(
 
   // Clip out habitat polys one at a time within sketch
   // Ensures re-merge of properties after with habitat name, otherwise we could have combined into multipolygon first
-  const clippedHabFeatures = habFeatures.features.reduce<HabitatFeature[]>(
-    (acc, hf) => {
-      if (hf.properties[HAB_TYPE_FIELD] === "Unknown") {
-        console.log("unknown!");
-      }
-      const polyClipped = intersect(hf, sketchMulti) as Feature<Polygon>;
-      return polyClipped && polyClipped.properties
-        ? acc.concat({ ...polyClipped, properties: hf.properties })
-        : acc;
-    },
-    []
-  );
+  const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>((acc, hf) => {
+    const polyClipped = intersect(hf, sketchMulti) as Feature<Polygon>;
+    return polyClipped && polyClipped.properties
+      ? acc.concat({ ...polyClipped, properties: hf.properties })
+      : acc;
+  }, []);
 
   // Sum total area by hab type within sketch in square meters
   const sumAreaByHabType = clippedHabFeatures.reduce<{ [key: string]: number }>(
