@@ -5,7 +5,7 @@ import { overlapMpa } from "./overlapMpa";
 import { getExampleSketchCollections } from "@seasketch/geoprocessing/scripts/testing";
 
 describe("Unit tests", () => {
-  test("hawaii-network-test sketch collection should overlap with 14 MMAs", async () => {
+  test("hawaii-network-test sketch collection should overlap with MMAs", async () => {
     const examples = await getExampleSketchCollections("hawaii-network-test");
 
     // collection

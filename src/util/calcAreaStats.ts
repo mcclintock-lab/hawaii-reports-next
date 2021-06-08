@@ -61,8 +61,6 @@ export function calcAreaStats(
   return {
     totalArea,
     areaByType: areaStatsByType,
-    metadata: {
-      units: "meters",
-    },
+    areaUnit: "square meters",
   };
 }

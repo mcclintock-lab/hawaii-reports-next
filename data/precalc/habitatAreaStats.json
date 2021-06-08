@@ -72,7 +72,5 @@
       "percArea": 0.0011368110320338174
     }
   ],
-  "metadata": {
-    "units": "meters"
-  }
+  "areaUnit": "square meters"
 }

@@ -12,7 +12,7 @@ import area from "@turf/area";
 import bbox from "@turf/bbox";
 import combine from "@turf/combine";
 import dissolve from "@turf/dissolve";
-import { featureCollection as fc } from "@turf/helpers";
+import { featureCollection as fc, multiPolygon } from "@turf/helpers";
 import { HAB_TYPE_FIELD } from "./habitatConstants";
 
 // Must be generated first
@@ -31,13 +31,18 @@ type HabitatFeature = Feature<
 export interface HabitatResults {
   totalArea: number;
   areaByType: AreaStats[];
+  areaUnit: string;
 }
 
-interface AreaStats {
+export interface AreaStats {
+  /** Total area with this habitat type in square meters */
   totalArea: number;
+  /** Percentage of overall habitat with this habitat type */
+  percArea: number;
+  /** Total area within sketch with this habitat type */
   sketchArea: number;
   /** Dataset-specific field containing habitat type name */
-  D_STRUCT: string;
+  [HAB_TYPE_FIELD]: string;
 }
 
 const habSource = new VectorDataSource<HabitatFeature>(
@@ -50,7 +55,10 @@ const habSource = new VectorDataSource<HabitatFeature>(
 async function habitat(
   sketch: Feature<Polygon> | FeatureCollection<Polygon>
 ): Promise<HabitatResults> {
-  const habFeatures = await habSource.fetch(sketch.bbox || bbox(sketch));
+  const habFeatures = await habSource.fetchUnion(
+    sketch.bbox || bbox(sketch),
+    "GID"
+  );
 
   // Dissolve down to a single feature
   const sketchFC = isFeatureCollection(sketch)
@@ -61,14 +69,20 @@ async function habitat(
 
   // Clip out habitat polys one at a time within sketch
   // Ensures re-merge of properties after with habitat name, otherwise we could have combined into multipolygon first
-  const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>((acc, hf) => {
-    const polyClipped = intersect(hf, sketchMulti) as Feature<Polygon>;
-    return polyClipped && polyClipped.properties
-      ? acc.concat({ ...polyClipped, properties: hf.properties })
-      : acc;
-  }, []);
+  const clippedHabFeatures = habFeatures.features.reduce<HabitatFeature[]>(
+    (acc, hf) => {
+      if (hf.properties[HAB_TYPE_FIELD] === "Unknown") {
+        console.log("unknown!");
+      }
+      const polyClipped = intersect(hf, sketchMulti) as Feature<Polygon>;
+      return polyClipped && polyClipped.properties
+        ? acc.concat({ ...polyClipped, properties: hf.properties })
+        : acc;
+    },
+    []
+  );
 
-  // Sum total area by hab type within sketch in sq km
+  // Sum total area by hab type within sketch in square meters
   const sumAreaByHabType = clippedHabFeatures.reduce<{ [key: string]: number }>(
     (acc, poly) => {
       const polyArea = area(poly);
@@ -78,32 +92,18 @@ async function habitat(
           poly.properties[HAB_TYPE_FIELD]
         )
           ? acc[poly.properties[HAB_TYPE_FIELD]] + polyArea
-          : 0,
+          : polyArea,
       };
     },
     {}
   );
-
-  const areaPercByHabType = Object.keys(sumAreaByHabType).reduce<{
-    [key: string]: number;
-  }>((acc, habtype) => {
-    const totalArea = habitatAreaStats.areaByType.find(
-      (s) => s[HAB_TYPE_FIELD] === habtype
-    )?.totalArea;
-    if (!totalArea)
-      throw new Error(`Total area not known for habitat type ${habtype}`);
-    return {
-      ...acc,
-      [habtype]: sumAreaByHabType[habtype] / totalArea,
-    };
-  }, {});
 
   // Flatten into array response
   return {
     ...habitatAreaStats,
     areaByType: habitatAreaStats.areaByType.map((abt) => ({
       ...abt,
-      sketchArea: areaPercByHabType[abt[HAB_TYPE_FIELD]] || 0,
+      sketchArea: sumAreaByHabType[abt[HAB_TYPE_FIELD]] || 0,
     })),
   };
 }
