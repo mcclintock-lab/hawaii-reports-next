@@ -102,8 +102,7 @@ export default new GeoprocessingHandler(habitat, {
   title: "habitat",
   description: "Calculate habitat within sketch",
   timeout: 2, // seconds
-  memory: 1024, // megabytes
-  executionMode: "sync",
+  executionMode: "async",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],
 });
