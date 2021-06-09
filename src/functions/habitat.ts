@@ -12,7 +12,7 @@ import area from "@turf/area";
 import bbox from "@turf/bbox";
 import combine from "@turf/combine";
 import dissolve from "@turf/dissolve";
-import { featureCollection as fc, multiPolygon } from "@turf/helpers";
+import { featureCollection as fc } from "@turf/helpers";
 import { HAB_TYPE_FIELD } from "./habitatConstants";
 
 // Must be generated first
@@ -57,20 +57,19 @@ async function habitat(
 ): Promise<HabitatResults> {
   const habFeatures = await habSource.fetch(sketch.bbox || bbox(sketch));
 
-  // Dissolve down to a single feature
+  // Dissolve down to a single sketch feature for speed
   const sketchFC = isFeatureCollection(sketch)
     ? dissolve(sketch)
     : fc([sketch]);
   const sketchMulti = (combine(sketchFC) as FeatureCollection<Polygon>)
     .features[0];
 
-  // Clip out habitat polys one at a time within sketch
-  // Ensures re-merge of properties after with habitat name, otherwise we could have combined into multipolygon first
+  // Intersect habitat polys one at a time with dissolved sketch, maintaining habitat properties
   const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>((acc, hf) => {
-    const polyClipped = intersect(hf, sketchMulti) as Feature<Polygon>;
-    return polyClipped && polyClipped.properties
-      ? acc.concat({ ...polyClipped, properties: hf.properties })
-      : acc;
+    const polyClipped = intersect(hf, sketchMulti, {
+      properties: hf.properties,
+    }) as HabitatFeature;
+    return polyClipped ? acc.concat(polyClipped) : acc;
   }, []);
 
   // Sum total area by hab type within sketch in square meters

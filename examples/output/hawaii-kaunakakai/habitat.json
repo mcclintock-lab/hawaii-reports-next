@@ -41,7 +41,7 @@
       "D_STRUCT": "Artificial",
       "totalArea": 3176616.081259236,
       "percArea": 0.0008708565728936963,
-      "sketchArea": 824.9586254324324
+      "sketchArea": 824.9586254324325
     },
     {
       "D_STRUCT": "Mud",
@@ -53,7 +53,7 @@
       "D_STRUCT": "Sand",
       "totalArea": 325966563.7541168,
       "percArea": 0.08936242760450809,
-      "sketchArea": 296481.92861965
+      "sketchArea": 296481.9286196501
     },
     {
       "D_STRUCT": "Aggregate Reef",
