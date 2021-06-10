@@ -3,7 +3,7 @@
  */
 import Handler from "./overlapMpa";
 import {
-  getExampleSketches,
+  getExamplePolygonSketchAll,
   writeResultOutput,
 } from "@seasketch/geoprocessing/scripts/testing";
 
@@ -14,7 +14,7 @@ describe("Basic smoke tests", () => {
     expect(typeof overlapMpa).toBe("function");
   });
   test("tests run against all examples", async () => {
-    const examples = await getExampleSketches();
+    const examples = await getExamplePolygonSketchAll();
     for (const example of examples) {
       const result = await overlapMpa(example);
       expect(result).toBeTruthy();

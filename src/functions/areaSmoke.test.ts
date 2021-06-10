@@ -4,7 +4,7 @@
 import { area } from "./area";
 import { STUDY_REGION_AREA_SQ_METERS } from "./areaConstants";
 import {
-  getExampleSketches,
+  getExampleSketchAll,
   writeResultOutput,
 } from "@seasketch/geoprocessing/scripts/testing";
 
@@ -13,7 +13,7 @@ describe("Basic smoke tests", () => {
     expect(typeof area).toBe("function");
   });
   test("tests run against all examples", async () => {
-    const examples = await getExampleSketches();
+    const examples = await getExampleSketchAll();
     for (const example of examples) {
       const result = await area(example);
       expect(result.area).toBeGreaterThan(0);
