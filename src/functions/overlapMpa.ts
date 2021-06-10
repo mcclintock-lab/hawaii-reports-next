@@ -43,7 +43,7 @@ export async function overlapMpa(
 export default new GeoprocessingHandler(overlapMpa, {
   title: "overlapMpa",
   description: "Find which MPAs the sketch overlaps with",
-  timeout: 2, // seconds
+  timeout: 60, // seconds
   executionMode: "async",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],

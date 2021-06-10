@@ -72,18 +72,23 @@ async function habitat(
   const sketchMulti = (combine(fc) as FeatureCollection<Polygon>).features[0];
 
   // Intersect habitat polys one at a time with dissolved feature, maintaining habitat properties
-  logger.time(`habitat - intersect`);
-  const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>((acc, hf) => {
-    const polyClipped = intersect(hf, sketchMulti, {
-      properties: hf.properties,
-    }) as HabitatFeature;
-    return polyClipped ? acc.concat(polyClipped) : acc;
-  }, []);
-  logger.timeEnd(`habitat - intersect`);
+  try {
+    logger.time(`habitat - intersect time`);
+    const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>(
+      (acc, hf) => {
+        const polyClipped = intersect(hf, sketchMulti, {
+          properties: hf.properties,
+        }) as HabitatFeature;
+        return polyClipped ? acc.concat(polyClipped) : acc;
+      },
+      []
+    );
+    logger.timeEnd(`habitat - intersect time`);
 
-  // Sum total area by hab type within feature in square meters
-  const sumAreaByHabType = clippedHabFeatures.reduce<{ [key: string]: number }>(
-    (acc, poly) => {
+    // Sum total area by hab type within feature in square meters
+    const sumAreaByHabType = clippedHabFeatures.reduce<{
+      [key: string]: number;
+    }>((acc, poly) => {
       const polyArea = area(poly);
       return {
         ...acc,
@@ -93,24 +98,26 @@ async function habitat(
           ? acc[poly.properties[HAB_TYPE_FIELD]] + polyArea
           : polyArea,
       };
-    },
-    {}
-  );
+    }, {});
 
-  // Flatten into array response
-  return {
-    ...habitatAreaStats,
-    areaByType: habitatAreaStats.areaByType.map((abt) => ({
-      ...abt,
-      sketchArea: roundDecimal(sumAreaByHabType[abt[HAB_TYPE_FIELD]] || 0, 6),
-    })),
-  };
+    // Flatten into array response
+    return {
+      ...habitatAreaStats,
+      areaByType: habitatAreaStats.areaByType.map((abt) => ({
+        ...abt,
+        sketchArea: roundDecimal(sumAreaByHabType[abt[HAB_TYPE_FIELD]] || 0, 6),
+      })),
+    };
+  } catch (err) {
+    logger.error("habitat - fail", err);
+    throw new Error(err);
+  }
 }
 
 export default new GeoprocessingHandler(habitat, {
   title: "habitat",
   description: "Calculate habitat within feature",
-  timeout: 2, // seconds
+  timeout: 60, // seconds
   executionMode: "async",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],
