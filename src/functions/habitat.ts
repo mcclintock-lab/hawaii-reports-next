@@ -109,7 +109,7 @@ async function habitat(
       })),
     };
   } catch (err) {
-    logger.error("habitat - fail", err);
+    logger.error("habitat error", err);
     throw new Error(err);
   }
 }

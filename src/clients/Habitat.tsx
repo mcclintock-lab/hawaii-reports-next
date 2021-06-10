@@ -1,11 +1,15 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import HabitatCard from "./HabitatCard";
 
-const Habitat = () => {
+interface ReportProps {
+  hidden: boolean;
+}
+
+const Habitat: FunctionComponent<ReportProps> = ({ hidden }: ReportProps) => {
   return (
-    <>
+    <div style={{ display: hidden ? "none" : "block" }}>
       <HabitatCard />
-    </>
+    </div>
   );
 };
 

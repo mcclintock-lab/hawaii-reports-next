@@ -4,6 +4,11 @@
   "region": "us-west-1",
   "clients": [
     {
+      "name": "HawaiiReports",
+      "description":  "All reports",
+      "source": "src/clients/HawaiiReports.tsx"
+    },
+    {
       "name": "Overview",
       "description": "Overview report",
       "source": "src/clients/Overview.tsx"
