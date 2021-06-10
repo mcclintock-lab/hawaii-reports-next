@@ -1,4 +1,4 @@
 [submodule "data/src"]
 	path = data/src
 	url = https://github.com/mcclintock-lab/hawaii-reports-next-data
-	ignore = all
+	ignore = dirty
