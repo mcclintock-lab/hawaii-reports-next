@@ -12,8 +12,10 @@ import area from "@turf/area";
 import bbox from "@turf/bbox";
 import combine from "@turf/combine";
 import dissolve from "@turf/dissolve";
-import { featureCollection as fc } from "@turf/helpers";
+import { featureCollection } from "@turf/helpers";
 import { HAB_TYPE_FIELD } from "./habitatConstants";
+import logger from "../util/logger";
+import { roundDecimal } from "../util/roundDecimal";
 
 // Must be generated first
 import habitatAreaStats from "../../data/precalc/habitatAreaStats.json";
@@ -39,7 +41,7 @@ export interface AreaStats {
   totalArea: number;
   /** Percentage of overall habitat with this habitat type */
   percArea: number;
-  /** Total area within sketch with this habitat type */
+  /** Total area within feature with this habitat type, rounded to the nearest meter */
   sketchArea: number;
   /** Dataset-specific field containing habitat type name */
   [HAB_TYPE_FIELD]: string;
@@ -53,26 +55,33 @@ const habSource = new VectorDataSource<HabitatFeature>(
  * Returns the area captured by the Feature polygon(s)
  */
 async function habitat(
-  sketch: Feature<Polygon> | FeatureCollection<Polygon>
+  feature: Feature<Polygon> | FeatureCollection<Polygon>
 ): Promise<HabitatResults> {
-  const habFeatures = await habSource.fetch(sketch.bbox || bbox(sketch));
+  const box = feature.bbox || bbox(feature);
+  const habFeatures = await habSource.fetch(box);
+  logger.info(
+    `habitat - fetched ${habFeatures.length} features within ${JSON.stringify(
+      box
+    )}`
+  );
 
-  // Dissolve down to a single sketch feature for speed
-  const sketchFC = isFeatureCollection(sketch)
-    ? dissolve(sketch)
-    : fc([sketch]);
-  const sketchMulti = (combine(sketchFC) as FeatureCollection<Polygon>)
-    .features[0];
+  // Dissolve down to a single feature feature for speed
+  const fc = isFeatureCollection(feature)
+    ? dissolve(feature)
+    : featureCollection([feature]);
+  const sketchMulti = (combine(fc) as FeatureCollection<Polygon>).features[0];
 
-  // Intersect habitat polys one at a time with dissolved sketch, maintaining habitat properties
+  // Intersect habitat polys one at a time with dissolved feature, maintaining habitat properties
+  logger.time(`habitat - intersect`);
   const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>((acc, hf) => {
     const polyClipped = intersect(hf, sketchMulti, {
       properties: hf.properties,
     }) as HabitatFeature;
     return polyClipped ? acc.concat(polyClipped) : acc;
   }, []);
+  logger.timeEnd(`habitat - intersect`);
 
-  // Sum total area by hab type within sketch in square meters
+  // Sum total area by hab type within feature in square meters
   const sumAreaByHabType = clippedHabFeatures.reduce<{ [key: string]: number }>(
     (acc, poly) => {
       const polyArea = area(poly);
@@ -93,14 +102,14 @@ async function habitat(
     ...habitatAreaStats,
     areaByType: habitatAreaStats.areaByType.map((abt) => ({
       ...abt,
-      sketchArea: sumAreaByHabType[abt[HAB_TYPE_FIELD]] || 0,
+      sketchArea: roundDecimal(sumAreaByHabType[abt[HAB_TYPE_FIELD]] || 0, 6),
     })),
   };
 }
 
 export default new GeoprocessingHandler(habitat, {
   title: "habitat",
-  description: "Calculate habitat within sketch",
+  description: "Calculate habitat within feature",
   timeout: 2, // seconds
   executionMode: "async",
   // Specify any Sketch Class form attributes that are required

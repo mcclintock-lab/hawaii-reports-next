@@ -1,9 +1,11 @@
 import area from "@turf/area";
 import { FeatureCollection, Polygon, Feature } from "@seasketch/geoprocessing";
 import { strict as assert } from "assert";
+import { roundDecimal } from "../util/roundDecimal";
 
 /**
  * Calculates area stats for a given feature collection.
+ * Results are rounded to 6 decimal places
  * @param {} collection - a GeoJSON feature collection
  * @param {*} typeProperty - feature property to stratify by
  */
@@ -51,15 +53,15 @@ export function calcAreaStats(
     assert(areaByType[type] >= 0 && areaByType[type] <= totalArea);
     return {
       [typeProperty]: type,
-      totalArea: areaByType[type],
-      percArea: areaByType[type] / totalArea,
+      totalArea: roundDecimal(areaByType[type], 6),
+      percArea: roundDecimal(areaByType[type] / totalArea, 6),
     };
   });
 
   assert(totalArea && totalArea > 0);
 
   return {
-    totalArea,
+    totalArea: +totalArea.toFixed(6),
     areaByType: areaStatsByType,
     areaUnit: "square meters",
   };
