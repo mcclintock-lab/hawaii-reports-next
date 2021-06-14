@@ -6,7 +6,7 @@ import {
   Polygon,
   VectorDataSource,
   toolbox,
-  unpackSketches,
+  toSketchArray,
 } from "@seasketch/geoprocessing";
 import bbox from "@turf/bbox";
 
@@ -28,7 +28,7 @@ export async function overlapMpa(
 ): Promise<OverlapMpaResults> {
   const mpas = await SubdividedOsmLandSource.fetch(sketch.bbox || bbox(sketch));
   const overlapFeatures = await toolbox.overlap(
-    unpackSketches(sketch),
+    toSketchArray(sketch),
     mpas,
     nameProperty
   );
