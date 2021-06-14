@@ -36,10 +36,11 @@
     "@turf/flatten": "^6.3.0",
     "@turf/helpers": "^6.3.0",
     "@turf/invariant": "^6.3.0",
+    "geoblaze": "^0.3.2",
     "union-subdivided-polygons": "^0.9.1"
   },
   "devDependencies": {
-    "@seasketch/geoprocessing": "0.12.2-alpha.7",
+    "@seasketch/geoprocessing": "0.12.2-alpha.9",
     "@turf/boolean-disjoint": "6.3.0",
     "@turf/boolean-valid": "6.3.0"
   },

@@ -1,3 +1,4 @@
-export function roundDecimal(num: number, places: number) {
-  return +num.toFixed(places);
+/** Rounds a number to a fixed precision  */
+export function roundDecimal(value: number, places: number) {
+  return +value.toFixed(places);
 }
