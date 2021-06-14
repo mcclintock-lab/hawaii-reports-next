@@ -59,11 +59,6 @@ async function habitat(
 ): Promise<HabitatResults> {
   const box = feature.bbox || bbox(feature);
   const habFeatures = await habSource.fetch(box);
-  logger.info(
-    `habitat - fetched ${habFeatures.length} features within ${JSON.stringify(
-      box
-    )}`
-  );
 
   // Dissolve down to a single feature feature for speed
   const fc = isFeatureCollection(feature)
@@ -73,7 +68,6 @@ async function habitat(
 
   // Intersect habitat polys one at a time with dissolved feature, maintaining habitat properties
   try {
-    logger.time(`habitat - intersect time`);
     const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>(
       (acc, hf) => {
         const polyClipped = intersect(hf, sketchMulti, {
@@ -83,7 +77,6 @@ async function habitat(
       },
       []
     );
-    logger.timeEnd(`habitat - intersect time`);
 
     // Sum total area by hab type within feature in square meters
     const sumAreaByHabType = clippedHabFeatures.reduce<{
