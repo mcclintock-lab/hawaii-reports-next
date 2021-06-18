@@ -2,9 +2,6 @@ import {
   Sketch,
   SketchCollection,
   GeoprocessingHandler,
-  isSketchCollection,
-  Feature,
-  FeatureCollection,
   Polygon,
   toFeatureArray,
 } from "@seasketch/geoprocessing";
@@ -12,7 +9,7 @@ import {
 import geoblaze from "geoblaze";
 import logger from "../util/logger";
 
-const rasterUrl = "http://127.0.0.1:8080/MHI_Biomass_Percent_Increase_4326.tif";
+const rasterUrl = "http://127.0.0.1:8080/browser_biomass_mn.tif";
 
 export interface RasterSumResults {
   /** area of the sketch in square meters */
@@ -40,16 +37,12 @@ export async function fishRecovery(
     const sketches = toFeatureArray(sketch);
     const raster = await loadRaster(rasterUrl);
 
-    let rasterSum = 0;
-
     const biomassAvgs = await Promise.all(
       sketches.map(async (f) => (await geoblaze.sum(raster, f))[0])
     );
-    console.log("biomassAvgs", biomassAvgs);
     const avgBiomass = biomassAvgs.reduce((maxAvg, sketchAvg) => {
       return Math.max(maxAvg, sketchAvg);
     }, 0);
-    console.log("avgBiomass", avgBiomass);
 
     // Flatten into array response
     return {
