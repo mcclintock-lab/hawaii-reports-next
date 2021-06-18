@@ -7,16 +7,19 @@ import {
   getExamplePolygonSketchAll,
   writeResultOutput,
 } from "@seasketch/geoprocessing/scripts/testing";
+import { isFeature } from "@seasketch/geoprocessing";
 
 describe("Biomass smoke tests", () => {
   it("has a handler function", () => {
     expect(typeof biomass).toBe("function");
   });
-  it.only("calculates biomass for hawaii-kaunakakai", async () => {
-    const example = (await getExamplePolygonSketchAll("hawaii-kaunakakai"))[0];
+  it("find biomass for all types in new maui", async () => {
+    const example = (await getExamplePolygonSketchAll("hawaii-"))[0];
     const result = await biomass(example);
-    expect(result).toBeTruthy();
+    expect(result.biomass.length).toBe(3);
+    result.biomass.forEach((r) => {
+      expect(r.sketchCount).toBeGreaterThan(0);
+    });
     writeResultOutput(result, "biomass", example.properties.name);
-    expect(Object.keys(result).length).toBe(3);
   });
 });

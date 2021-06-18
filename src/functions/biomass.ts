@@ -13,65 +13,58 @@ import bbox from "@turf/bbox";
 // @ts-ignore
 import geoblaze from "geoblaze";
 import logger from "../util/logger";
-import biomassStats from "../../data/precalc/biomass.json";
 
-const precalcStats = biomassStats as BiomassPrecalc;
+/** Regions defined within project */
+const REGION_IDS = ["mn", "whi"] as const;
+type REGION_ID = typeof REGION_IDS[number];
 
-const SUBREGION_IDS = ["mn", "whi"] as const;
-type SUBREGION_ID = typeof SUBREGION_IDS[number];
-
+/** Biomass types available to project */
 const BIOMASS_TYPES = ["browser", "grazer", "scraper"] as const;
 type BIOMASS_TYPE = typeof BIOMASS_TYPES[number];
 
-interface Subregion {
-  id: SUBREGION_ID;
+/** Region within a project */
+interface Region {
+  id: string;
   name: string;
   bbox: BBox;
 }
 
+/** Biomass raster datasource */
 interface BiomassDatasource {
-  type: BIOMASS_TYPE;
-  region: SUBREGION_ID;
+  type: string;
+  region: string;
   /** URL of the raster file */
   url: string;
+}
+
+interface BiomassRunParams {
+  /** biomass type */
+  type: BIOMASS_TYPE;
+  /** biomass region */
+  region: REGION_ID;
+  /** high quantile raster cell value */
+  value: number;
+  /** total number of cells with value */
+  totalCount: number;
 }
 
 /** Biomass analysis result for a single biomass type and region */
 interface BiomassResult {
   type: BIOMASS_TYPE;
+  region: REGION_ID;
   /** Total count of cells with high quantile value */
-  region: SUBREGION_ID;
   totalCount: number;
   /** Total count of cells with high quantile value within sketch */
   sketchCount: number;
 }
 
-/** Provide strong typing for precalculated stats */
-interface BiomassPrecalc {
-  highQuantileCellValue: {
-    [biomassType: string]: {
-      [region: string]: number;
-    };
-  };
-  cellCountByValue: {
-    [biomassType: string]: {
-      [region: string]: {
-        [highQuantValue: string]: number;
-      };
-    };
-  };
-}
-
-/**
- * Biomass results are an object keyed by region ID
- */
+/** Biomass function results */
 export interface BiomassResults {
   biomass: BiomassResult[];
 }
 
-// These are subregions where biomass data exist.  Analysis is run for each subregion
-// that the sketch overlaps with
-const subregions: Subregion[] = [
+/** Region definitions for project */
+const subregions: Region[] = [
   {
     id: "mn",
     name: "Maui Nui",
@@ -91,6 +84,7 @@ const subregions: Subregion[] = [
 ];
 
 const datasourceUrl = "http://127.0.0.1:8080";
+/** Biomass rasters available for project */
 const biomassDatasources: BiomassDatasource[] = [
   {
     type: "browser",
@@ -124,43 +118,45 @@ const biomassDatasources: BiomassDatasource[] = [
   },
 ];
 
-/**
- * Calculates biomass stats within Feature polygons for given single band raster
- */
-export async function biomassCountByValue(
-  type: BIOMASS_TYPE,
-  region: SUBREGION_ID,
-  /** High quant cell value to filter for */
-  value: number,
-  /** Polygons to filter for */
-  features: Feature<Polygon>[],
-  raster: object
-): Promise<BiomassResult> {
-  // Count cells with high quant value in every polygon
-  const sketchCount = (
-    await Promise.all(
-      features.map(async (feature) => {
-        // @ts-ignore
-        const binaryRaster = await geoblaze.rasterCalculator(
-          raster,
-          (a: any) => (a === value ? 1 : 0) // Make high quant value cells 1, all others 0
-        );
-        // @ts-ignore
-        const count = await geoblaze.sum(binaryRaster, feature)[0]; // Sum of binary is effectively a count
-        return count as number;
-      })
-    )
-  ).reduce((sum, sketchCount) => {
-    return sketchCount + sum;
-  }, 0);
-
-  return {
-    type,
-    region,
-    totalCount: precalcStats.cellCountByValue[type][region][value],
-    sketchCount,
-  };
-}
+/** Analysis run parameters. Includes precomputed stats collected from rasters */
+const biomassRuns: BiomassRunParams[] = [
+  {
+    type: "browser",
+    region: "mn",
+    value: 37,
+    totalCount: 20363,
+  },
+  {
+    type: "browser",
+    region: "whi",
+    value: 41,
+    totalCount: 4782,
+  },
+  {
+    type: "grazer",
+    region: "mn",
+    value: 29,
+    totalCount: 23630,
+  },
+  {
+    type: "grazer",
+    region: "whi",
+    value: 33,
+    totalCount: 4765,
+  },
+  {
+    type: "scraper",
+    region: "mn",
+    value: 21,
+    totalCount: 23791,
+  },
+  {
+    type: "scraper",
+    region: "whi",
+    value: 25,
+    totalCount: 4913,
+  },
+];
 
 export async function biomass(
   sketch: Sketch<Polygon> | SketchCollection<Polygon>
@@ -168,36 +164,31 @@ export async function biomass(
   try {
     const sketches = toSketchArray(sketch);
 
-    // Find subregions that overlap sketch and get just their ID
+    // Find regions that overlap sketch and get just their ID
     const overlappingRegions = subregions
       .map((region) => bboxOverlap(region.bbox, sketch.bbox || bbox(sketch)))
-      .reduce<Subregion["id"][]>(
+      .reduce<Region["id"][]>(
         (overlapIds, isOverlap, index) =>
           isOverlap ? overlapIds.concat([subregions[index].id]) : overlapIds,
         []
       );
 
-    // Load and calculate sum offor each raster independently (async)
-    let biomassRuns: Promise<BiomassResult>[] = [];
-    overlappingRegions.forEach((region) => {
-      BIOMASS_TYPES.forEach(async (type) => {
-        const datasource = biomassDatasources.find(
-          (d) => d.region === region && d.type === type
-        );
-        if (!datasource) throw new Error("could not find matching datasource");
-        const raster = await loadRaster(datasource.url);
-        const highQuantValue = biomassStats.highQuantileCellValue[type][region];
-        const run = biomassCountByValue(
-          type,
-          region,
-          highQuantValue,
-          sketches,
-          raster
-        );
-        biomassRuns.push(run);
-      });
-    });
-    const results = await Promise.all(biomassRuns);
+    // Get runs for these regions
+    const finalRuns = biomassRuns.filter((rp) =>
+      overlappingRegions.includes(rp.region)
+    );
+
+    const results: BiomassResult[] = [];
+    for (let x = 0; x < finalRuns.length; x++) {
+      const { region, type, value, totalCount } = finalRuns[x];
+      const datasource = biomassDatasources.find(
+        (d) => d.region === region && d.type === type
+      );
+      if (!datasource) throw new Error("could not find matching datasource");
+      const raster = await geoblaze.load(datasource.url);
+      const result = await biomassCountByValue(finalRuns[x], sketches, raster);
+      results.push(result);
+    }
 
     return {
       biomass: results,
@@ -208,15 +199,50 @@ export async function biomass(
   }
 }
 
-async function loadRaster(url: string): Promise<object> {
+/**
+ * Core raster analysis - given raster, counts number of cells with value that are within Feature polygons
+ */
+export async function biomassCountByValue(
+  params: BiomassRunParams,
+  /** Polygons to filter for */
+  features: Feature<Polygon>[],
+  raster: object
+): Promise<BiomassResult> {
+  // Count cells with high quant value in every polygon
+  const { type, region, value, totalCount } = params;
+  const sketchCount = (
+    await Promise.all(
+      features.map(async (feature) => {
+        // @ts-ignore
+        const binaryRaster = await geoblaze.rasterCalculator(
+          raster,
+          (a: any) => (a === value ? 1 : 0) // Make cells matching value 1, all others 0
+        );
+        // @ts-ignore
+        const count = await geoblaze.sum(binaryRaster, feature)[0]; // Sum binary giving count
+        return count as number;
+      })
+    )
+  ).reduce((sum, sketchCount) => {
+    return sketchCount + sum;
+  }, 0);
+
+  return {
+    type,
+    region,
+    totalCount,
+    sketchCount,
+  };
+}
+
+export async function loadRaster(url: string): Promise<object> {
   return geoblaze.load(url);
 }
 
 export default new GeoprocessingHandler(biomass, {
   title: "biomass",
   description: "calculates biomass within given sketch",
-  timeout: 2, // seconds
-  memory: 2048, // megabytes
+  timeout: 60, // seconds
   executionMode: "sync",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],

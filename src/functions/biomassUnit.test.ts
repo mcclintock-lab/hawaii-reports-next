@@ -52,35 +52,10 @@ const poly: Feature<Polygon> = {
 };
 
 describe("Biomass unit tests", () => {
-  it("should sum single raster", function (done) {
-    parseGeoraster(values, metadata).then(async (georaster: any) => {
-      try {
-        expect(georaster.numberOfRasters).toEqual(1);
-        expect(georaster.projection).toEqual(projection);
-        expect(georaster.noDataValue).toEqual(noDataValue);
-        expect(georaster.xmin).toEqual(xmin);
-        expect(georaster.xmax).toEqual(40.03);
-        expect(georaster.ymin).toEqual(13.97);
-        expect(georaster.ymax).toEqual(ymax);
-        expect(georaster.pixelHeight).toEqual(georaster.pixelHeight);
-        expect(georaster.pixelWidth).toEqual(georaster.pixelWidth);
-        expect(JSON.stringify(georaster.values)).toEqual(
-          JSON.stringify(values)
-        );
-        const sum = await geoblaze.sum(georaster, poly);
-        expect(sum[0]).toBe(4);
-        done();
-      } catch (error) {
-        console.error("Error parsing from simple object", error);
-      }
-    });
-  });
   it("correctly calculates biomassCountByValue", async () => {
     const georaster = await parseGeoraster(values, metadata);
     const result = await biomassCountByValue(
-      "browser",
-      "mn",
-      1,
+      { type: "browser", region: "mn", value: 1, totalCount: 3 },
       [poly],
       georaster
     );
