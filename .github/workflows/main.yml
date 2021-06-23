@@ -17,6 +17,8 @@ jobs:
       - name: Checkout repo and submodules
         uses: actions/checkout@v2
         with:
+          token: ${{ secrets.CI_TOKEN }}
+          lfs: true
           submodules: recursive
       - uses: actions/setup-node@v2
         with:
