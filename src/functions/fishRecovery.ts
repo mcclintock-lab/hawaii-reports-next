@@ -66,8 +66,7 @@ function loadRaster(url: string): Promise<object> {
 export default new GeoprocessingHandler(fishRecovery, {
   title: "rasterSum",
   description: "calculates the sum of a raster",
-  timeout: 2, // seconds
-  memory: 2048, // megabytes
+  timeout: 60, // seconds
   executionMode: "sync",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],
