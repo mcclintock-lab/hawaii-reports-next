@@ -1,5 +1,11 @@
 # Hawaii Reports for Seasketch Next
 
+## Quickstart
+
+* npm run `start:data` - serves data/dist on localhost port 8080
+* npm run `test:unit` - run all unit tests
+* npm run `test:smoke` - run all smoke tests, using `start:data` as datasource
+
 ## Project Design
 
 ## Clip Preprocessor

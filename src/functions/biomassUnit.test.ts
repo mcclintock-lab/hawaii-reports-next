@@ -2,8 +2,6 @@
  * @jest-environment node
  * @group unit
  */
-import { area } from "./area";
-import { getExampleFeaturesByName } from "@seasketch/geoprocessing/scripts/testing";
 import { Feature, Polygon } from "@seasketch/geoprocessing";
 import { biomassCountByValue } from "./biomass";
 // @ts-ignore

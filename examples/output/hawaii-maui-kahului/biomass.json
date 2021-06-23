@@ -1,0 +1,22 @@
+{
+  "biomass": [
+    {
+      "type": "browser",
+      "region": "mn",
+      "totalCount": 20363,
+      "sketchCount": 3290
+    },
+    {
+      "type": "grazer",
+      "region": "mn",
+      "totalCount": 23630,
+      "sketchCount": 1882
+    },
+    {
+      "type": "scraper",
+      "region": "mn",
+      "totalCount": 23791,
+      "sketchCount": 177
+    }
+  ]
+}
