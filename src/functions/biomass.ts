@@ -83,41 +83,6 @@ const subregions: Region[] = [
   },
 ];
 
-const datasourceUrl = "http://127.0.0.1:8080";
-/** Biomass rasters available for project */
-const biomassDatasources: BiomassDatasource[] = [
-  {
-    type: "browser",
-    region: "mn",
-    url: `${datasourceUrl}/browser_biomass_mn.tif`,
-  },
-  {
-    type: "browser",
-    region: "whi",
-    url: `${datasourceUrl}/browser_biomass_whi.tif`,
-  },
-  {
-    type: "grazer",
-    region: "mn",
-    url: `${datasourceUrl}/grazer_biomass_mn.tif`,
-  },
-  {
-    type: "grazer",
-    region: "whi",
-    url: `${datasourceUrl}/grazer_biomass_whi.tif`,
-  },
-  {
-    type: "scraper",
-    region: "mn",
-    url: `${datasourceUrl}/scraper_biomass_mn.tif`,
-  },
-  {
-    type: "grazer",
-    region: "whi",
-    url: `${datasourceUrl}/scraper_biomass_whi.tif`,
-  },
-];
-
 /** Analysis run parameters. Includes precomputed stats collected from rasters */
 const biomassRuns: BiomassRunParams[] = [
   {
@@ -161,6 +126,46 @@ const biomassRuns: BiomassRunParams[] = [
 export async function biomass(
   sketch: Sketch<Polygon> | SketchCollection<Polygon>
 ): Promise<BiomassResults> {
+  /** Raster datasource, fallback to localhost in test environment */
+  const datasourceUrl =
+    process.env.NODE_ENV === "test"
+      ? "http://127.0.0.1:8080"
+      : "https://gp-hawaii-reports-next-datasets.s3.us-west-1.amazonaws.com";
+
+  /** Biomass rasters available for project */
+  const biomassDatasources: BiomassDatasource[] = [
+    {
+      type: "browser",
+      region: "mn",
+      url: `${datasourceUrl}/browser_biomass_mn.tif`,
+    },
+    {
+      type: "browser",
+      region: "whi",
+      url: `${datasourceUrl}/browser_biomass_whi.tif`,
+    },
+    {
+      type: "grazer",
+      region: "mn",
+      url: `${datasourceUrl}/grazer_biomass_mn.tif`,
+    },
+    {
+      type: "grazer",
+      region: "whi",
+      url: `${datasourceUrl}/grazer_biomass_whi.tif`,
+    },
+    {
+      type: "scraper",
+      region: "mn",
+      url: `${datasourceUrl}/scraper_biomass_mn.tif`,
+    },
+    {
+      type: "grazer",
+      region: "whi",
+      url: `${datasourceUrl}/scraper_biomass_whi.tif`,
+    },
+  ];
+
   try {
     const sketches = toSketchArray(sketch);
 

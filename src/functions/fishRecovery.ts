@@ -9,8 +9,6 @@ import {
 import geoblaze from "geoblaze";
 import logger from "../util/logger";
 
-const rasterUrl = "http://127.0.0.1:8080/browser_biomass_mn.tif";
-
 export interface RasterSumResults {
   /** area of the sketch in square meters */
   sum: number;
@@ -32,7 +30,13 @@ export interface FishingRecoveryResults {
 export async function fishRecovery(
   sketch: Sketch<Polygon> | SketchCollection<Polygon>
 ): Promise<FishingRecoveryResults> {
-  // Read in rasters
+  /** Raster datasource, fallback to localhost in test environment */
+  const datasourceUrl =
+    process.env.NODE_ENV === "test"
+      ? "http://127.0.0.1:8080"
+      : "https://gp-hawaii-reports-next-datasets.s3.us-west-1.amazonaws.com";
+  const rasterUrl = `${datasourceUrl}/browser_biomass_mn.tif`;
+
   try {
     const sketches = toFeatureArray(sketch);
     const raster = await loadRaster(rasterUrl);
@@ -60,7 +64,7 @@ export async function fishRecovery(
 }
 
 function loadRaster(url: string): Promise<object> {
-  return geoblaze.load(rasterUrl);
+  return geoblaze.load(url);
 }
 
 export default new GeoprocessingHandler(fishRecovery, {
