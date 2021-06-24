@@ -7,6 +7,7 @@ import {
   getExamplePolygonSketchAll,
   writeResultOutput,
 } from "@seasketch/geoprocessing/scripts/testing";
+import keyBy from "lodash.keyby";
 import { isFeature } from "@seasketch/geoprocessing";
 
 describe("Biomass smoke tests", () => {
@@ -14,12 +15,15 @@ describe("Biomass smoke tests", () => {
     expect(typeof biomass).toBe("function");
   });
   it("find biomass for all types in new maui", async () => {
-    const example = (await getExamplePolygonSketchAll("hawaii-"))[0];
-    const result = await biomass(example);
-    expect(result.biomass.length).toBe(3);
-    result.biomass.forEach((r) => {
-      expect(r.sketchCount).toBeGreaterThan(0);
-    });
-    writeResultOutput(result, "biomass", example.properties.name);
+    const examples = await getExamplePolygonSketchAll("hawaii-");
+    for (const example of examples) {
+      const result = await biomass(example);
+      const numRegions = Object.keys(keyBy(result.biomass, "region")).length;
+      expect(result.biomass.length).toBe(numRegions * 3);
+      result.biomass.forEach((r) => {
+        expect(r.sketchCount).toBeGreaterThanOrEqual(0);
+      });
+      writeResultOutput(result, "biomass", example.properties.name);
+    }
   });
 });

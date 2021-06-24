@@ -1,0 +1,40 @@
+{
+  "biomass": [
+    {
+      "type": "browser",
+      "region": "mn",
+      "totalCount": 20363,
+      "sketchCount": 1
+    },
+    {
+      "type": "browser",
+      "region": "whi",
+      "totalCount": 4782,
+      "sketchCount": 0
+    },
+    {
+      "type": "grazer",
+      "region": "mn",
+      "totalCount": 23630,
+      "sketchCount": 30
+    },
+    {
+      "type": "grazer",
+      "region": "whi",
+      "totalCount": 4765,
+      "sketchCount": 0
+    },
+    {
+      "type": "scraper",
+      "region": "mn",
+      "totalCount": 23791,
+      "sketchCount": 34
+    },
+    {
+      "type": "scraper",
+      "region": "whi",
+      "totalCount": 4913,
+      "sketchCount": 9
+    }
+  ]
+}

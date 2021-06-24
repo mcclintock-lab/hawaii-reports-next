@@ -13,6 +13,7 @@ import bbox from "@turf/bbox";
 // @ts-ignore
 import geoblaze from "geoblaze";
 import logger from "../util/logger";
+import keyBy from "lodash.keyby";
 
 /** Regions defined within project */
 const REGION_IDS = ["mn", "whi"] as const;
@@ -49,7 +50,7 @@ interface BiomassRunParams {
 }
 
 /** Biomass analysis result for a single biomass type and region */
-interface BiomassResult {
+export interface BiomassResult {
   type: BIOMASS_TYPE;
   region: REGION_ID;
   /** Total count of cells with high quantile value */
@@ -64,7 +65,7 @@ export interface BiomassResults {
 }
 
 /** Region definitions for project */
-const subregions: Region[] = [
+export const regions: Region[] = [
   {
     id: "mn",
     name: "Maui Nui",
@@ -82,6 +83,8 @@ const subregions: Region[] = [
     ],
   },
 ];
+
+export const regionsById = keyBy(regions, "id");
 
 /** Analysis run parameters. Includes precomputed stats collected from rasters */
 const biomassRuns: BiomassRunParams[] = [
@@ -160,7 +163,7 @@ export async function biomass(
       url: `${datasourceUrl}/scraper_biomass_mn.tif`,
     },
     {
-      type: "grazer",
+      type: "scraper",
       region: "whi",
       url: `${datasourceUrl}/scraper_biomass_whi.tif`,
     },
@@ -170,15 +173,15 @@ export async function biomass(
     const sketches = toSketchArray(sketch);
 
     // Find regions that overlap sketch and get just their ID
-    const overlappingRegions = subregions
+    const overlappingRegions = regions
       .map((region) => bboxOverlap(region.bbox, sketch.bbox || bbox(sketch)))
       .reduce<Region["id"][]>(
         (overlapIds, isOverlap, index) =>
-          isOverlap ? overlapIds.concat([subregions[index].id]) : overlapIds,
+          isOverlap ? overlapIds.concat([regions[index].id]) : overlapIds,
         []
       );
 
-    // Get runs for these regions
+    // Get run parameters for remaining regions
     const finalRuns = biomassRuns.filter((rp) =>
       overlappingRegions.includes(rp.region)
     );
@@ -189,7 +192,11 @@ export async function biomass(
       const datasource = biomassDatasources.find(
         (d) => d.region === region && d.type === type
       );
-      if (!datasource) throw new Error("could not find matching datasource");
+      if (!datasource) {
+        throw new Error(
+          `could not find matching datasource for ${region} ${type}`
+        );
+      }
       const raster = await geoblaze.load(datasource.url);
       const result = await biomassCountByValue(finalRuns[x], sketches, raster);
       results.push(result);

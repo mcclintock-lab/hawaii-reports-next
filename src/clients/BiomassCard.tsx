@@ -1,5 +1,7 @@
 import React from "react";
 import { ResultsCard } from "@seasketch/geoprocessing/client";
+import { BiomassResults, regions, regionsById } from "../functions/biomass";
+import groupBy from "lodash.groupby";
 
 // const STUDY_REGION_AREA_SQ_KM = STUDY_REGION_AREA_SQ_METERS / 1000;
 
@@ -13,11 +15,23 @@ const Percent = new Intl.NumberFormat("en", {
 });
 
 const BiomassCard = () => (
-  <ResultsCard title="Habitat" functionName="habitat">
-    {(data: Record<string, any>) => {
-      /**
-       * 3 line charts labeled Browsers, Grazer
-       */
+  <ResultsCard title="Biomass" functionName="biomass">
+    {(data: BiomassResults) => {
+      if (data.biomass.length === 0) {
+        return (
+          <>
+            <p>
+              <b>No Data.</b>
+            </p>
+            <p>
+              Sketch is not within one of the subregions: ${regions.join(", ")}
+            </p>
+          </>
+        );
+      }
+
+      const biomassByRegion = groupBy(data.biomass, "region");
+
       return (
         <>
           <p>
@@ -28,12 +42,17 @@ const BiomassCard = () => (
             the study region.
           </p>
 
-          <p>
-            Work in progress
-            <h3>Browsers</h3>
-            <h3>Grazers</h3>
-            <h3>Scrapers</h3>
-          </p>
+          {Object.keys(biomassByRegion).map((regionId) => (
+            <>
+              <h4>{regionsById[regionId].name}</h4>
+              {biomassByRegion[regionId].map((result) => (
+                <p>
+                  {result.type} -{" "}
+                  {Percent.format(result.sketchCount / result.totalCount)}
+                </p>
+              ))}
+            </>
+          ))}
         </>
       );
     }}
