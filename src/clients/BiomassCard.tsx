@@ -1,12 +1,7 @@
 import React from "react";
-import { ResultsCard } from "@seasketch/geoprocessing/client";
-import { groupBy } from "@seasketch/geoprocessing";
-import {
-  BiomassResults,
-  regions,
-  regionsById,
-  REGION_ID,
-} from "../functions/biomass";
+import { ResultsCard, groupBy } from "@seasketch/geoprocessing/client";
+import { BiomassResults } from "../functions/biomass";
+import { regions, regionsById, REGION_ID } from "../region";
 
 const Percent = new Intl.NumberFormat("en", {
   style: "percent",
