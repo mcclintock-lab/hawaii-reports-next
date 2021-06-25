@@ -7,38 +7,38 @@ import {
   toSketchArray,
   bboxOverlap,
   BBox,
+  keyBy,
 } from "@seasketch/geoprocessing";
 
 import bbox from "@turf/bbox";
 // @ts-ignore
 import geoblaze from "geoblaze";
 import logger from "../util/logger";
-import keyBy from "lodash.keyby";
 
 /** Regions defined within project */
 const REGION_IDS = ["mn", "whi"] as const;
-type REGION_ID = typeof REGION_IDS[number];
+export type REGION_ID = typeof REGION_IDS[number];
 
 /** Biomass types available to project */
 const BIOMASS_TYPES = ["browser", "grazer", "scraper"] as const;
-type BIOMASS_TYPE = typeof BIOMASS_TYPES[number];
+export type BIOMASS_TYPE = typeof BIOMASS_TYPES[number];
 
 /** Region within a project */
-interface Region {
+export interface Region {
   id: string;
   name: string;
   bbox: BBox;
 }
 
 /** Biomass raster datasource */
-interface BiomassDatasource {
+export interface BiomassDatasource {
   type: string;
   region: string;
   /** URL of the raster file */
   url: string;
 }
 
-interface BiomassRunParams {
+export interface BiomassRunParams {
   /** biomass type */
   type: BIOMASS_TYPE;
   /** biomass region */
@@ -70,7 +70,9 @@ export const regions: Region[] = [
     id: "mn",
     name: "Maui Nui",
     bbox: [
-      -157.3371169900573534, 20.5566313585666265, -155.9621572597392003,
+      -157.3371169900573534,
+      20.5566313585666265,
+      -155.9621572597392003,
       21.2330457203244691,
     ],
   },
@@ -78,13 +80,15 @@ export const regions: Region[] = [
     id: "whi",
     name: "West Hawaii",
     bbox: [
-      -156.0741979364363203, 18.8954214781976404, -155.6606770176455257,
+      -156.0741979364363203,
+      18.8954214781976404,
+      -155.6606770176455257,
       20.2647321723465517,
     ],
   },
 ];
 
-export const regionsById = keyBy(regions, "id");
+export const regionsById = keyBy(regions, (region) => region.id);
 
 /** Analysis run parameters. Includes precomputed stats collected from rasters */
 const biomassRuns: BiomassRunParams[] = [

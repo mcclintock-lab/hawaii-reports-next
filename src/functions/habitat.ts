@@ -4,6 +4,7 @@ import {
   intersect,
   isFeatureCollection,
   Polygon,
+  MultiPolygon,
   Feature,
   FeatureCollection,
 } from "@seasketch/geoprocessing";
@@ -60,11 +61,12 @@ async function habitat(
   const box = feature.bbox || bbox(feature);
   const habFeatures = await habSource.fetch(box);
 
-  // Dissolve down to a single feature feature for speed
+  // Dissolve down to a single feature for speed
   const fc = isFeatureCollection(feature)
     ? dissolve(feature)
     : featureCollection([feature]);
-  const sketchMulti = (combine(fc) as FeatureCollection<Polygon>).features[0];
+  const sketchMulti = (combine(fc) as FeatureCollection<MultiPolygon>)
+    .features[0];
 
   // Intersect habitat polys one at a time with dissolved feature, maintaining habitat properties
   try {

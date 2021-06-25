@@ -1,7 +1,12 @@
 import React from "react";
 import { ResultsCard } from "@seasketch/geoprocessing/client";
-import { BiomassResults, regions, regionsById } from "../functions/biomass";
-import groupBy from "lodash.groupby";
+import { groupBy } from "@seasketch/geoprocessing";
+import {
+  BiomassResults,
+  regions,
+  regionsById,
+  REGION_ID,
+} from "../functions/biomass";
 
 // const STUDY_REGION_AREA_SQ_KM = STUDY_REGION_AREA_SQ_METERS / 1000;
 
@@ -30,19 +35,20 @@ const BiomassCard = () => (
         );
       }
 
-      const biomassByRegion = groupBy(data.biomass, "region");
-
+      const biomassByRegion = groupBy(data.biomass, (br) => br.region); //as Record<REGION_ID, BiomassResult[]>;
+      const resultRegions = Object.keys(biomassByRegion) as REGION_ID[];
       return (
         <>
           <p>
-            Your zone protects the the following percent of high biomass areas
-            for browsers, grazers, and scrapers. High biomass areas were those
-            in which predicted biomass of the respective functional group of
-            herbivores was found to be in the top 25% of biomass values across
-            the study region.
+            Your zone protects a percentage of high biomass areas for 3 groups
+            of herbivores: browsers, grazers, and scrapers.
+          </p>
+          <p>
+            High biomass areas are those in which the predicted biomass of the
+            group is in the top 25% across the study region.
           </p>
 
-          {Object.keys(biomassByRegion).map((regionId) => (
+          {resultRegions.map((regionId) => (
             <>
               <h4>{regionsById[regionId].name}</h4>
               {biomassByRegion[regionId].map((result) => (
