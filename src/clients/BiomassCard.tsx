@@ -8,12 +8,6 @@ import {
   REGION_ID,
 } from "../functions/biomass";
 
-// const STUDY_REGION_AREA_SQ_KM = STUDY_REGION_AREA_SQ_METERS / 1000;
-
-const Number = new Intl.NumberFormat("en", {
-  style: "decimal",
-  maximumFractionDigits: 1,
-});
 const Percent = new Intl.NumberFormat("en", {
   style: "percent",
   maximumFractionDigits: 1,
