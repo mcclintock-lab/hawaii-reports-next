@@ -222,7 +222,7 @@ export default new GeoprocessingHandler(biomass, {
   title: "biomass",
   description: "calculates biomass within given sketch",
   timeout: 60, // seconds
-  executionMode: "sync",
+  executionMode: "async",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],
 });
