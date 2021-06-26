@@ -12,8 +12,6 @@ import { KeySection } from "../components/KeySection";
 // Import type definitions from function
 import { HabitatResults, AreaStats } from "../functions/habitat";
 
-// const STUDY_REGION_AREA_SQ_KM = STUDY_REGION_AREA_SQ_METERS / 1000;
-
 const Number = new Intl.NumberFormat("en", {
   style: "decimal",
   maximumFractionDigits: 1,

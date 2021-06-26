@@ -1,4 +1,3 @@
-
 source ../.env
 
 # Copy all dist biomass files

@@ -1,7 +1,14 @@
 import React from "react";
-import { ResultsCard, groupBy } from "@seasketch/geoprocessing/client";
-import { BiomassResults } from "../functions/biomass";
+import {
+  ResultsCard,
+  groupBy,
+  Column,
+  Table,
+  capitalize,
+} from "@seasketch/geoprocessing/client";
+import { BiomassResult, BiomassResults } from "../functions/biomass";
 import { regions, regionsById, REGION_ID } from "../region";
+import { KeySection } from "../components/KeySection";
 
 const Percent = new Intl.NumberFormat("en", {
   style: "percent",
@@ -11,21 +18,30 @@ const Percent = new Intl.NumberFormat("en", {
 const BiomassCard = () => (
   <ResultsCard title="Biomass" functionName="biomass">
     {(data: BiomassResults) => {
-      if (data.biomass.length === 0) {
-        return (
-          <>
-            <p>
-              <b>No Data.</b>
-            </p>
-            <p>
-              Sketch is not within one of the subregions: ${regions.join(", ")}
-            </p>
-          </>
-        );
-      }
-
       const biomassByRegion = groupBy(data.biomass, (br) => br.region); //as Record<REGION_ID, BiomassResult[]>;
       const resultRegions = Object.keys(biomassByRegion) as REGION_ID[];
+
+      const columns: Column<BiomassResult>[] = [
+        {
+          Header: "Region",
+          accessor: (row) => regionsById[row.region].name,
+          style: { backgroundColor: "#efefef", fontSize: 14 },
+        },
+        {
+          Header: "Herbivore Group",
+          accessor: (row) => capitalize(row.type),
+          style: { backgroundColor: "#efefef", fontSize: 14 },
+        },
+        {
+          Header: "% of high biomass",
+          style: { textAlign: "center", fontSize: 14 },
+          accessor: (row) => {
+            const num = Percent.format(row.sketchCount / row.totalCount);
+            return num === "0%" ? "-" : num;
+          },
+        },
+      ];
+
       return (
         <>
           <p>
@@ -36,18 +52,21 @@ const BiomassCard = () => (
             High biomass areas are those in which the predicted biomass of the
             group is in the top 25% across the study region.
           </p>
-
-          {resultRegions.map((regionId) => (
-            <>
-              <h4>{regionsById[regionId].name}</h4>
-              {biomassByRegion[regionId].map((result) => (
-                <p>
-                  {result.type} -{" "}
-                  {Percent.format(result.sketchCount / result.totalCount)}
-                </p>
-              ))}
-            </>
-          ))}
+          <KeySection>
+            {data.biomass.length ? (
+              <Table
+                columns={columns}
+                data={data.biomass.sort((a, b) =>
+                  a.region.localeCompare(b.region)
+                )}
+              />
+            ) : (
+              <span>
+                Sketch is not within one of the defined subregions:
+                {regions.join(", ")}
+              </span>
+            )}
+          </KeySection>
         </>
       );
     }}

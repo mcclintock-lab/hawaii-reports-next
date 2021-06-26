@@ -1,4 +1,4 @@
-import { keyBy } from "@seasketch/geoprocessing/client";
+import { keyBy } from "@seasketch/geoprocessing/dist/src/helpers";
 
 /** Regions defined within project */
 const REGION_IDS = ["mn", "whi"] as const;
