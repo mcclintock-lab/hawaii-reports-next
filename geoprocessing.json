@@ -17,6 +17,11 @@
       "name": "Habitat",
       "description": "Habitat report",
       "source": "src/clients/Habitat.tsx"
+    },
+    {
+      "name": "Human Impacts",
+      "description": "Human impacts report",
+      "source": "src/clients/HumanImpact.tsx"
     }
   ],
   "preprocessingFunctions": [

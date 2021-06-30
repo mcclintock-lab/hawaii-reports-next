@@ -1,0 +1,90 @@
+{
+  "totalArea": 3647691457.048915,
+  "areaByType": [
+    {
+      "D_STRUCT": "Land",
+      "totalArea": 3007560.786278,
+      "percArea": 0.000825,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Aggregated Patch Reef",
+      "totalArea": 1712261.133588,
+      "percArea": 0.000469,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Rock/Boulder",
+      "totalArea": 290058791.362612,
+      "percArea": 0.079518,
+      "sketchArea": 156742.385156
+    },
+    {
+      "D_STRUCT": "Pavement with Sand Channels",
+      "totalArea": 74026265.937587,
+      "percArea": 0.020294,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Rubble",
+      "totalArea": 3281271.984737,
+      "percArea": 0.0009,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Pavement",
+      "totalArea": 437918134.057044,
+      "percArea": 0.120054,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Artificial",
+      "totalArea": 3176616.081259,
+      "percArea": 0.000871,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Mud",
+      "totalArea": 63243886.731185,
+      "percArea": 0.017338,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Sand",
+      "totalArea": 325966563.754108,
+      "percArea": 0.089362,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Aggregate Reef",
+      "totalArea": 66486389.784533,
+      "percArea": 0.018227,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Unknown",
+      "totalArea": 2332086220.842021,
+      "percArea": 0.639332,
+      "sketchArea": 1413318.510544
+    },
+    {
+      "D_STRUCT": "Spur and Groove",
+      "totalArea": 40659354.889432,
+      "percArea": 0.011147,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Individual Patch Reef",
+      "totalArea": 1921403.814703,
+      "percArea": 0.000527,
+      "sketchArea": 0
+    },
+    {
+      "D_STRUCT": "Scattered Coral/Rock",
+      "totalArea": 4146735.889829,
+      "percArea": 0.001137,
+      "sketchArea": 0
+    }
+  ],
+  "areaUnit": "square meters"
+}
