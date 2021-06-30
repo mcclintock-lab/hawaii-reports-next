@@ -62,8 +62,8 @@ const BiomassCard = () => (
               />
             ) : (
               <span>
-                Sketch is not within one of the defined subregions:
-                {regions.join(", ")}
+                Sketch is not within one of the defined subregions:{" "}
+                {regions.map((r) => r.name).join(", ")}
               </span>
             )}
           </KeySection>
