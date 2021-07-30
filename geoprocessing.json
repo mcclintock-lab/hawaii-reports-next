@@ -32,6 +32,7 @@
     "src/functions/area.ts",
     "src/functions/overlapMpa.ts",
     "src/functions/habitat.ts",
-    "src/functions/biomass.ts"
+    "src/functions/biomass.ts",
+    "src/functions/humanImpact.ts"
   ]
 }
