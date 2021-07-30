@@ -13,12 +13,12 @@ const HawaiiReports = () => {
         <SegmentControl
           value={tab}
           onClick={(segment) => setTab(segment)}
-          segments={["Overview", "Habitat"]}
+          segments={["Overview", "Habitat", "Human"]}
         />
       </div>
       <Overview hidden={!enableAllTabs && tab !== "Overview"} />
       <Habitat hidden={!enableAllTabs && tab !== "Habitat"} />
-      <HumanImpact hidden={!enableAllTabs && tab !== "Human Impacts"} />
+      <HumanImpact hidden={!enableAllTabs && tab !== "Human"} />
     </>
   );
 };

@@ -4,9 +4,6 @@ import {
   SketchAttributesCard,
 } from "@seasketch/geoprocessing/client";
 import { KeySection } from "../components/KeySection";
-const widthImage = require("./img/min_width_example.png");
-
-console.log("widthImage", widthImage);
 
 // Import the results type definition from your functions to type-check your
 // component render functions
@@ -57,7 +54,7 @@ const MinWidthCard = () => (
               marginBottom: 10,
             }}
           >
-            <img src={widthImage} width={277} />
+            <img src={require("./img/min_width_example.png")} width={277} />
           </div>
         </>
       );
