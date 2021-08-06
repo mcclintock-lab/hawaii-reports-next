@@ -1,8 +1,20 @@
 {
-  "avgBiomass": 20716,
-  "avgBiomassPerc": 0.12,
-  "avgLength": 1.2,
-  "avgLengthPerc": 0.14,
-  "biomassUnit": "g/m^2",
-  "lengthUnit": "cm"
+  "potentialBySketch": [
+    {
+      "sketchName": "hawaii-kaunakakai",
+      "biomassIncrease": 428921.68813705444,
+      "avgPercBiomassIncrease": 5.789064163877851,
+      "avgLengthIncrease": 4.517217865444365,
+      "avgPercLengthIncrease": 0.30010988241150266
+    }
+  ],
+  "potential": {
+    "sketchName": "hawaii-kaunakakai",
+    "biomassIncrease": 428921.68813705444,
+    "avgPercBiomassIncrease": 5.789064163877851,
+    "avgLengthIncrease": 4.517217865444365,
+    "avgPercLengthIncrease": 0.30010988241150266
+  },
+  "lengthUnits": "cm",
+  "areaDensityUnits": "g/m^2"
 }

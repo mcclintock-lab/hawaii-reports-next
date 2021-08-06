@@ -1,0 +1,20 @@
+{
+  "potentialBySketch": [
+    {
+      "sketchName": "hawaii-kaula-mma-next",
+      "biomassIncrease": 0,
+      "avgPercBiomassIncrease": 0,
+      "avgLengthIncrease": 0,
+      "avgPercLengthIncrease": 0
+    }
+  ],
+  "potential": {
+    "sketchName": "hawaii-kaula-mma-next",
+    "biomassIncrease": 0,
+    "avgPercBiomassIncrease": 0,
+    "avgLengthIncrease": 0,
+    "avgPercLengthIncrease": 0
+  },
+  "lengthUnits": "cm",
+  "areaDensityUnits": "g/m^2"
+}

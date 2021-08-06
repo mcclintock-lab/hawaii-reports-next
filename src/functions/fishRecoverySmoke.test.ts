@@ -8,17 +8,32 @@ import {
   writeResultOutput,
 } from "@seasketch/geoprocessing/scripts/testing";
 
-describe("Fish recovery smoke tests", () => {
-  it("has a handler function is present", () => {
+describe("smoke tests", () => {
+  it("has a handler function", () => {
     expect(typeof fishRecovery).toBe("function");
   });
-  it("is able to run hawaii examples", async () => {
-    const examples = await getExamplePolygonSketchAll("hawaii-kaunakakai");
+  it("find for all types", async () => {
+    const examples = await getExamplePolygonSketchAll("hawaii-");
     for (const example of examples) {
+      console.log(example.properties.name);
       const result = await fishRecovery(example);
+      console.log(result);
       expect(result).toBeTruthy();
+      expect(result.potentialBySketch.length).toBeGreaterThanOrEqual(1);
+      expect(result.potential.biomassIncrease).toBeGreaterThanOrEqual(0);
+      expect(
+        result.potential.avgPercBiomassIncrease === undefined ||
+          result.potential?.avgPercBiomassIncrease >= 0
+      ).toBe(true);
+      expect(
+        result.potential.avgLengthIncrease === undefined ||
+          result.potential.avgLengthIncrease >= 0
+      ).toBe(true);
+      expect(
+        result.potential.avgPercLengthIncrease === undefined ||
+          result.potential.avgPercLengthIncrease >= 0
+      ).toBe(true);
       writeResultOutput(result, "fishRecovery", example.properties.name);
-      expect(result.avgBiomass).toBeGreaterThanOrEqual(0);
     }
   });
 });

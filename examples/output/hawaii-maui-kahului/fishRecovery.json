@@ -1,0 +1,14 @@
+{
+  "potentialBySketch": [
+    {
+      "sketchName": "hawaii-maui-kahului",
+      "biomassIncrease": 0
+    }
+  ],
+  "potential": {
+    "sketchName": "hawaii-maui-kahului",
+    "biomassIncrease": 0
+  },
+  "lengthUnits": "cm",
+  "areaDensityUnits": "g/m^2"
+}
