@@ -10,5 +10,5 @@
     "biomassIncrease": 0
   },
   "lengthUnits": "cm",
-  "areaDensityUnits": "g/m^2"
+  "biomassUnits": "kg"
 }

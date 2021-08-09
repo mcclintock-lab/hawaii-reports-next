@@ -43,7 +43,7 @@ const Card = () => (
           },
           columns: [
             {
-              Header: `Total (${data.areaDensityUnits})`,
+              Header: `Total (${data.biomassUnits})`,
               accessor: (row) => {
                 const prefix =
                   row.biomassIncrease && row.biomassIncrease > 0 ? "+" : "";

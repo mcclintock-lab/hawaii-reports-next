@@ -1,22 +1,24 @@
 import {
   Sketch,
   SketchCollection,
-  isSketchCollection,
+  isPolygonSketchCollection,
   GeoprocessingHandler,
   Polygon,
   loadCogWindow,
 } from "@seasketch/geoprocessing";
 
 import bbox from "@turf/bbox";
+import dissolve from "@turf/dissolve";
 import { mean, sum } from "simple-statistics";
 
 // @ts-ignore
 import geoblaze, { Georaster } from "geoblaze";
+import { featureCollection } from "@turf/helpers";
 
 export interface FishRecoveryMetric {
   /** Name of sketch or sketch collection */
   sketchName: string;
-  /** Total biomass increase in sketch */
+  /** Total biomass increase in sketch in kg */
   biomassIncrease?: number;
   /** Average % biomass increase in sketch */
   avgPercBiomassIncrease?: number;
@@ -35,7 +37,7 @@ export interface FishRecoveryResults {
   /** unit name for length metric */
   lengthUnits: string;
   /** unit name for biomass metric */
-  areaDensityUnits: string;
+  biomassUnits: string;
 }
 
 export async function fishRecovery(
@@ -71,6 +73,7 @@ export async function fishRecovery(
   const box = sketch.bbox || bbox(sketch);
 
   // Load all the rasters first, then calc stats.
+  // TODO: PERFORMANCE switch to loading just the window for each sketch, avoiding large raster for dispersed sketchcollection
   const rasters = await Promise.all(
     rasterUrls.map(
       async (rasterUrl, index) =>
@@ -93,56 +96,35 @@ export async function fishRecoveryStats(
   rasters: Georaster[]
 ): Promise<FishRecoveryResults> {
   // Calculate stats for each sketch
-  const sketches = isSketchCollection(sketch) ? sketch.features : [sketch];
+  const sketches = isPolygonSketchCollection(sketch)
+    ? sketch.features
+    : [sketch];
+
   const featureStats = sketches.map((curSketch) => ({
     sketchName: curSketch.properties.name,
-    biomassIncrease: geoblaze.sum(rasters[0], curSketch)[0] * 60,
+    biomassIncrease: (geoblaze.sum(rasters[0], curSketch)[0] * 60 * 60) / 1000,
     avgPercBiomassIncrease: geoblaze.mean(rasters[1], curSketch)[0],
     avgLengthIncrease: geoblaze.mean(rasters[2], curSketch)[0],
     avgPercLengthIncrease: geoblaze.mean(rasters[3], curSketch)[0],
   }));
 
-  // rollup the numbers, means use an imperfect average of averages
-  const biomassIncreaseValues = getStatByName(featureStats, "biomassIncrease");
-  const biomassIncrease = biomassIncreaseValues.length
-    ? sum(biomassIncreaseValues)
-    : undefined;
-
-  const avgPercBiomassIncreaseValues = getStatByName(
-    featureStats,
-    "avgPercBiomassIncrease"
-  );
-  const avgPercBiomassIncrease = avgPercBiomassIncreaseValues.length
-    ? mean(avgPercBiomassIncreaseValues)
-    : undefined;
-
-  const avgLengthIncreaseValues = getStatByName(
-    featureStats,
-    "avgLengthIncrease"
-  );
-  const avgLengthIncrease = avgLengthIncreaseValues.length
-    ? mean(avgLengthIncreaseValues)
-    : undefined;
-
-  const avgPercLengthIncreaseValues = getStatByName(
-    featureStats,
-    "avgPercLengthIncrease"
-  );
-  const avgPercLengthIncrease = avgPercLengthIncreaseValues.length
-    ? mean(avgPercLengthIncreaseValues)
-    : undefined;
+  // Remove overlap for calculating sketch collection stats
+  const dissolvedSketch = isPolygonSketchCollection(sketch)
+    ? dissolve(sketch)
+    : featureCollection([sketch]);
 
   return {
     potentialBySketch: featureStats,
     potential: {
       sketchName: sketch.properties.name,
-      biomassIncrease,
-      avgPercBiomassIncrease,
-      avgLengthIncrease,
-      avgPercLengthIncrease,
+      biomassIncrease:
+        (geoblaze.sum(rasters[0], dissolvedSketch)[0] * 60 * 60) / 1000,
+      avgPercBiomassIncrease: geoblaze.mean(rasters[1], dissolvedSketch)[0],
+      avgLengthIncrease: geoblaze.mean(rasters[2], dissolvedSketch)[0],
+      avgPercLengthIncrease: geoblaze.mean(rasters[3], dissolvedSketch)[0],
     },
     lengthUnits: "cm",
-    areaDensityUnits: "g/m^2",
+    biomassUnits: "kg",
   };
 }
 

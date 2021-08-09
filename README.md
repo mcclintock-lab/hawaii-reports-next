@@ -48,8 +48,8 @@ This dataset is the result of a raster calculation where predictions of current 
 
 ### Report Metrics
 
-Total biomass increase (g/m^2) in sketch
-* sum(7_MHI_Biomass_Increase_NoFishing cells in sketch polygon/s) * 60
+Total biomass increase (kg) in sketch
+* sum(7_MHI_Biomass_Increase_NoFishing cells in sketch polygon/s) * 60 * 60 / 1000
 
 Average % biomass increase in sketch
 * mean(7_MHI_Biomass_Increase_NoFishing / 3_MHI_Biomass_Present) * 100
@@ -59,3 +59,4 @@ Average length increase (cm) in sketch
 
 Average % length increase in sketch
 * mean(8_MHI_Length_Increase_NoFishing / 5_MHI_Length_Present) * 100
+
