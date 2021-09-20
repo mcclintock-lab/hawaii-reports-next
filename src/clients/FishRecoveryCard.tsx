@@ -129,7 +129,14 @@ const Card = () => (
           </p>
           <p>
             This analysis predicts the change in size and abundance of targeted
-            reef fish within your zones, should all fishing pressure be removed.
+            reef fish within your zones, should all fishing pressure be removed,
+            in order to compare the recovery potential of different areas.
+          </p>
+          <p>
+            Fishing regulations like size limits, bag limits and/or gear
+            restrictions may reduce fishing pressure to some extent, resulting
+            in changes in size and abundance, without fully prohibiting fishing
+            activity in the area.
           </p>
 
           <KeySection>
@@ -143,6 +150,22 @@ const Card = () => (
               </span>
             )}
           </KeySection>
+
+          <p>Learn more about the modeling approach and caveats to the data:</p>
+          <p>
+            <em>
+              Kostantinos A. Stamoulis, Jade M. S. Delevaux, Ivor D. Williams
+              (2018){" "}
+              <a
+                target="_blank"
+                href="https://1e05a732-1b3d-4510-8030-13ccf4986396.filesusr.com/ugd/ae7152_8e06e52dd8ea4fb2b1b5a1682409027f.pdf"
+              >
+                Seascape models reveal places to focus coastal fisheries
+                management
+              </a>
+              . Ecological Applications, 28(4) pp. 910–925.
+            </em>
+          </p>
         </>
       );
     }}

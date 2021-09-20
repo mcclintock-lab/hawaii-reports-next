@@ -102,7 +102,7 @@ export async function fishRecoveryStats(
 
   const featureStats = sketches.map((curSketch) => ({
     sketchName: curSketch.properties.name,
-    biomassIncrease: (geoblaze.sum(rasters[0], curSketch)[0] * 60 * 60) / 1000,
+    biomassIncrease: geoblaze.sum(rasters[0], curSketch)[0] * 60,
     avgPercBiomassIncrease: geoblaze.mean(rasters[1], curSketch)[0],
     avgLengthIncrease: geoblaze.mean(rasters[2], curSketch)[0],
     avgPercLengthIncrease: geoblaze.mean(rasters[3], curSketch)[0],
@@ -117,14 +117,13 @@ export async function fishRecoveryStats(
     potentialBySketch: featureStats,
     potential: {
       sketchName: sketch.properties.name,
-      biomassIncrease:
-        (geoblaze.sum(rasters[0], dissolvedSketch)[0] * 60 * 60) / 1000,
+      biomassIncrease: geoblaze.sum(rasters[0], dissolvedSketch)[0] * 60,
       avgPercBiomassIncrease: geoblaze.mean(rasters[1], dissolvedSketch)[0],
       avgLengthIncrease: geoblaze.mean(rasters[2], dissolvedSketch)[0],
       avgPercLengthIncrease: geoblaze.mean(rasters[3], dissolvedSketch)[0],
     },
     lengthUnits: "cm",
-    biomassUnits: "kg",
+    biomassUnits: "g/m",
   };
 }
 

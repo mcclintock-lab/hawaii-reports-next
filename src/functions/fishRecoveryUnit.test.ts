@@ -75,7 +75,7 @@ describe("unit tests", () => {
       georaster,
     ]);
     expect(result.potentialBySketch.length).toBe(1);
-    expect(result.potential.biomassIncrease).toBe(14.4);
+    expect(result.potential.biomassIncrease).toBe(240);
     expect(result.potential.avgPercBiomassIncrease).toBeCloseTo(1.33);
     expect(result.potential.avgLengthIncrease).toBeCloseTo(1.33);
     expect(result.potential.avgPercLengthIncrease).toBeCloseTo(1.33);

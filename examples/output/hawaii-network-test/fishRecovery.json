@@ -2,14 +2,14 @@
   "potentialBySketch": [
     {
       "sketchName": "test1",
-      "biomassIncrease": 273.5524918556213,
+      "biomassIncrease": 4559.208197593689,
       "avgPercBiomassIncrease": 0.07914856225252151,
       "avgLengthIncrease": -0.6112603624661763,
       "avgPercLengthIncrease": -0.02562038165827592
     },
     {
       "sketchName": "test3",
-      "biomassIncrease": 390.80467185974123,
+      "biomassIncrease": 6513.4111976623535,
       "avgPercBiomassIncrease": 1.0742394839014326,
       "avgLengthIncrease": 3.2684039047786166,
       "avgPercLengthIncrease": 0.1794731616973877
@@ -17,11 +17,11 @@
   ],
   "potential": {
     "sketchName": "hawaii-network-test",
-    "biomassIncrease": 664.3571637153625,
+    "biomassIncrease": 11072.619395256042,
     "avgPercBiomassIncrease": 0.267409006888802,
     "avgLengthIncrease": 0.12273017458013587,
     "avgPercLengthIncrease": 0.013181099517119897
   },
   "lengthUnits": "cm",
-  "biomassUnits": "kg"
+  "biomassUnits": "g/m"
 }
