@@ -26,6 +26,10 @@ const SizeCard = () => (
       const percArea = data.area / STUDY_REGION_AREA_SQ_METERS;
       const percDisplay = Percent.format(percArea);
       const areaUnitDisplay = "sq. km";
+
+      const percSketchContourDisplay = Percent.format(
+        data.percSketchInContourArea
+      );
       return (
         <>
           <p>
@@ -36,8 +40,14 @@ const SizeCard = () => (
           </p>
 
           <KeySection>
-            📐 The sketch is <b>{areaDisplay}</b> {areaUnitDisplay}, which is{" "}
-            <b>{percDisplay}</b> of the total planning area.
+            <p>
+              📐 The sketch is <b>{areaDisplay}</b> {areaUnitDisplay}, which is{" "}
+              {percDisplay} of the total planning area.
+            </p>
+            <p>
+              <b>{percSketchContourDisplay}</b> of the sketch is within the 50
+              meter contour
+            </p>
           </KeySection>
         </>
       );

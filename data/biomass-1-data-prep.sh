@@ -1,7 +1,7 @@
 #!/bin/bash
 # Run in workspace
 
-if [ ! -d src/biomass ]; then
+if [ ! -d src/biodiversity ]; then
   echo 'Missing src biomass data'
   exit 0
 fi

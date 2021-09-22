@@ -1,5 +1,8 @@
 {
   "area": 86465313.9641764,
   "percPlanningArea": 0.009685356030228584,
-  "areaUnit": "square meters"
+  "areaUnit": "square meters",
+  "contourArea": 0,
+  "percContourArea": 0,
+  "percSketchInContourArea": 0
 }
