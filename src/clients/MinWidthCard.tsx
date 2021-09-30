@@ -40,7 +40,7 @@ const MinWidthCard = () => (
             . Note: the suggested minimum width may change in the future.
           </p>
           <KeySection>
-            This design has a minimum width of{" "}
+            This plan has a minimum width of{" "}
             <b>
               {minWidthDisplay} {MIN_WIDTH_UNIT}
             </b>

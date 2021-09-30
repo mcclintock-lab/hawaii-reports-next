@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import { SketchAttributesCard } from "@seasketch/geoprocessing/client";
 import MinWidthCard from "./MinWidthCard";
 import SizeCard from "./SizeCard";
+import ContourCard from "./ContourCard";
 import OverlapMpaCard from "./OverlapMpaCard";
 
 interface ReportProps {
@@ -11,8 +12,9 @@ interface ReportProps {
 const Overview: FunctionComponent<ReportProps> = ({ hidden }) => {
   return (
     <div style={{ display: hidden ? "none" : "block" }}>
-      <MinWidthCard />
       <SizeCard />
+      <ContourCard />
+      <MinWidthCard />
       <OverlapMpaCard />
       <SketchAttributesCard autoHide={true} />
     </div>

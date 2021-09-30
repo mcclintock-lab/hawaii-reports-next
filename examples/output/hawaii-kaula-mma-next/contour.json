@@ -4,43 +4,54 @@
     {
       "Island": "bi",
       "totalArea": 296081917.191274,
-      "percArea": 0.086285
+      "percArea": 0.086285,
+      "sketchArea": 0
     },
     {
       "Island": "kh",
       "totalArea": 45001895.847888,
-      "percArea": 0.013115
+      "percArea": 0.013115,
+      "sketchArea": 0
     },
     {
       "Island": "mo",
       "totalArea": 307582098.410099,
-      "percArea": 0.089636
+      "percArea": 0.089636,
+      "sketchArea": 0
     },
     {
       "Island": "la",
       "totalArea": 128395127.827792,
-      "percArea": 0.037417
+      "percArea": 0.037417,
+      "sketchArea": 0
     },
     {
       "Island": "ma",
       "totalArea": 365295996.380963,
-      "percArea": 0.106455
+      "percArea": 0.106455,
+      "sketchArea": 0
     },
     {
       "Island": "oa",
       "totalArea": 1600191931.587431,
-      "percArea": 0.46633
+      "percArea": 0.46633,
+      "sketchArea": 0
     },
     {
       "Island": "ka",
       "totalArea": 334721570.813307,
-      "percArea": 0.097545
+      "percArea": 0.097545,
+      "sketchArea": 0
     },
     {
       "Island": "ni",
       "totalArea": 354188413.882882,
-      "percArea": 0.103218
+      "percArea": 0.103218,
+      "sketchArea": 1570062.746703
     }
   ],
-  "areaUnit": "square meters"
+  "areaUnit": "square meters",
+  "sketchContourArea": 1570062.746703264,
+  "sketchPercContourArea": 0.0004575496220972918,
+  "percSketchInContourArea": 1.0000000000000877
 }

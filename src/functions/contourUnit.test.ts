@@ -1,7 +1,7 @@
 /**
  * @group unit
  */
-import { area } from "./area";
+import { contour } from "./contour";
 import { getExampleFeaturesByName } from "@seasketch/geoprocessing/scripts/testing";
 import { Sketch, Polygon } from "@seasketch/geoprocessing";
 
@@ -16,10 +16,9 @@ describe("Unit tests", () => {
 
     const examples = await getExampleFeaturesByName();
     const feature = examples["penguin_point.json"];
-    const result = await area(feature as Sketch<Polygon>);
-    const fivePerc = result.area * 0.005;
-    expect(result.area).toBeLessThan(penguinPointAreaSqMeters + fivePerc);
-    expect(result.area).toBeGreaterThan(penguinPointAreaSqMeters - fivePerc);
+    const result = await contour(feature as Sketch<Polygon>);
+    expect(result.sketchContourArea).toBe(0);
+    expect(result.sketchContourArea).toBe(0);
   });
 
   test("Contour area should positive", async () => {
@@ -32,7 +31,10 @@ describe("Unit tests", () => {
 
     const examples = await getExampleFeaturesByName();
     const feature = examples["kanahena_nearshore.json"];
-    const result = await area(feature as Sketch<Polygon>);
-    expect(result.area).toBeGreaterThan(0);
+    const result = await contour(feature as Sketch<Polygon>);
+    expect(result.sketchContourArea).toBeGreaterThan(0);
+    expect(result.sketchContourArea).toBeLessThanOrEqual(
+      penguinPointAreaSqMeters
+    );
   });
 });

@@ -1,35 +1,32 @@
 import React from "react";
 import {
   ResultsCard,
+  LayerToggle,
   squareMeterToKilometer,
   Table,
   Column,
-  LayerToggle,
 } from "@seasketch/geoprocessing/client";
-// import { STUDY_REGION_AREA_SQ_METERS } from "../functions/areaConstants";
-import { HAB_TYPE_FIELD } from "../functions/habitatConstants";
+import { TYPE_FIELD, islands } from "../functions/contourConstants";
 import { KeySection } from "../components/KeySection";
 
 // Import type definitions from function
-import { HabitatResults, AreaStats } from "../functions/habitat";
+import { ContourResults, ContourAreaStats } from "../functions/contour";
 
-const Number = new Intl.NumberFormat("en", {
-  style: "decimal",
-  maximumFractionDigits: 1,
-});
+const Number = new Intl.NumberFormat("en", { style: "decimal" });
 const Percent = new Intl.NumberFormat("en", {
   style: "percent",
-  maximumFractionDigits: 1,
+  maximumFractionDigits: 2,
 });
 
-const HabitatCard = () => (
-  <ResultsCard title="Habitat" functionName="habitat">
-    {(data: HabitatResults) => {
+const ContourCard = () => (
+  <ResultsCard title="Nearshore" functionName="contour">
+    {(data: ContourResults) => {
       const areaUnitDisplay = "sq. km";
-      const columns: Column<AreaStats>[] = [
+
+      const columns: Column<ContourAreaStats>[] = [
         {
-          Header: "Habitat",
-          accessor: HAB_TYPE_FIELD,
+          Header: "Island",
+          accessor: (row) => islands.find((i) => i.id === row.Island)?.label,
           style: { backgroundColor: "#efefef", fontSize: 14 },
         },
         {
@@ -50,29 +47,39 @@ const HabitatCard = () => (
         },
       ];
 
+      const percSketchContourDisplay = Percent.format(
+        data.percSketchInContourArea
+      );
       return (
         <>
           <p>
-            Each major habitat type should be represented in the marine
-            management area network to support a wide array of species.
+            Marine management areas should be limited to the nearshore within 50
+            meters of water and distributed evenly between island groups as much
+            as possible.
           </p>
 
           <KeySection>
+            <p>
+              <b>{percSketchContourDisplay}</b> of the plan is within the 50
+              meter contour
+            </p>
+
             {data.areaByType.length ? (
               <Table
                 columns={columns}
                 data={data.areaByType.sort((a, b) =>
-                  a[HAB_TYPE_FIELD].localeCompare(b[HAB_TYPE_FIELD])
+                  a[TYPE_FIELD].localeCompare(b[TYPE_FIELD])
                 )}
               />
             ) : (
               <span>This sketch does not overlap with any habitat</span>
             )}
           </KeySection>
+
           <p>
             <LayerToggle
-              layerId={"5e98ca7835bdb2a5068615da"}
-              label="Show Habitat Layer"
+              layerId={"5e98c96635bdb2a5068611dd"}
+              label="Show 50m Contour Layer"
             />
           </p>
         </>
@@ -81,4 +88,4 @@ const HabitatCard = () => (
   </ResultsCard>
 );
 
-export default HabitatCard;
+export default ContourCard;

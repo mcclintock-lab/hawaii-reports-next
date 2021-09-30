@@ -7,7 +7,7 @@ import { FeatureCollection, Polygon } from "@seasketch/geoprocessing";
 import { strict as assert } from "assert";
 
 const habitatFC = JSON.parse(
-  fs.readFileSync(`${__dirname}/dist/habitat.json`).toString()
+  fs.readFileSync(`${__dirname}/dist/habitat.geojson`).toString()
 );
 
 const stats = calcAreaStats(

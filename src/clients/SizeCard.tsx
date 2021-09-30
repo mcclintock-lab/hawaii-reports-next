@@ -2,6 +2,7 @@ import React from "react";
 import {
   ResultsCard,
   squareMeterToKilometer,
+  LayerToggle,
 } from "@seasketch/geoprocessing/client";
 import { STUDY_REGION_AREA_SQ_METERS } from "../functions/areaConstants";
 import { KeySection } from "../components/KeySection";
@@ -9,12 +10,10 @@ import { KeySection } from "../components/KeySection";
 // Import type definitions from function
 import { AreaResults } from "../functions/area";
 
-const STUDY_REGION_AREA_SQ_KM = STUDY_REGION_AREA_SQ_METERS / 1000;
-
 const Number = new Intl.NumberFormat("en", { style: "decimal" });
 const Percent = new Intl.NumberFormat("en", {
   style: "percent",
-  maximumFractionDigits: 1,
+  maximumFractionDigits: 2,
 });
 
 const SizeCard = () => (
@@ -27,9 +26,6 @@ const SizeCard = () => (
       const percDisplay = Percent.format(percArea);
       const areaUnitDisplay = "sq. km";
 
-      const percSketchContourDisplay = Percent.format(
-        data.percSketchInContourArea
-      );
       return (
         <>
           <p>
@@ -41,14 +37,16 @@ const SizeCard = () => (
 
           <KeySection>
             <p>
-              📐 The sketch is <b>{areaDisplay}</b> {areaUnitDisplay}, which is{" "}
-              {percDisplay} of the total planning area.
-            </p>
-            <p>
-              <b>{percSketchContourDisplay}</b> of the sketch is within the 50
-              meter contour
+              This plan is <b>{areaDisplay}</b> {areaUnitDisplay}, which is{" "}
+              <b>{percDisplay}</b> of state waters.
             </p>
           </KeySection>
+          <p>
+            <LayerToggle
+              layerId={"5e98c93635bdb2a5068611b5"}
+              label="Show State Waters Boundary Layer"
+            />
+          </p>
         </>
       );
     }}

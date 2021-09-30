@@ -151,20 +151,17 @@ const Card = () => (
             )}
           </KeySection>
 
-          <p>Learn more about the modeling approach and caveats to the data:</p>
           <p>
+            See{" "}
             <em>
-              Kostantinos A. Stamoulis, Jade M. S. Delevaux, Ivor D. Williams
-              (2018){" "}
               <a
                 target="_blank"
                 href="https://1e05a732-1b3d-4510-8030-13ccf4986396.filesusr.com/ugd/ae7152_8e06e52dd8ea4fb2b1b5a1682409027f.pdf"
               >
-                Seascape models reveal places to focus coastal fisheries
-                management
+                Kostantinos A. Stamoulis, et al, 2018
               </a>
-              . Ecological Applications, 28(4) pp. 910–925.
-            </em>
+            </em>{" "}
+            to learn more about the modeling approach and caveats to the data.
           </p>
         </>
       );
