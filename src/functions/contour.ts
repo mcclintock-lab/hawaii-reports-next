@@ -17,7 +17,7 @@ import bbox from "@turf/bbox";
 import dissolve from "@turf/dissolve";
 import turfArea from "@turf/area";
 import { featureCollection, MultiPolygon } from "@turf/helpers";
-import { TYPE_FIELD } from "./contourConstants";
+import { TYPE_FIELD, islands } from "./contourConstants";
 import contourAreaStats from "../../data/precalc/contourAreaStats.json";
 import { takeAsync } from "flatgeobuf/lib/cjs/streams/utils";
 import { roundDecimal } from "../util/roundDecimal";
@@ -32,6 +32,8 @@ type ContourPoly = Feature<
 >;
 
 export interface ContourResults {
+  /** Area of sketch */
+  area: number;
   /** Total area of 50m contour */
   totalArea: number;
   /** Unit of measurement for area value */
@@ -125,6 +127,11 @@ export async function contour(
     };
   }, {});
 
+  const areaByType = contourAreaStats.areaByType.map((abt) => ({
+    ...abt,
+    sketchArea: roundDecimal(sumAreaByType[abt[TYPE_FIELD]] || 0, 6),
+  }));
+
   // if (overlapPolys.length > 0) {
   //   toJsonFile(
   //     featureCollection(overlapPolys),
@@ -139,11 +146,9 @@ export async function contour(
   );
 
   return {
+    area: featureArea,
     ...contourAreaStats,
-    areaByType: contourAreaStats.areaByType.map((abt) => ({
-      ...abt,
-      sketchArea: roundDecimal(sumAreaByType[abt[TYPE_FIELD]] || 0, 6),
-    })),
+    areaByType,
     sketchContourArea,
     sketchPercContourArea: sketchContourArea / contourAreaStats.totalArea,
     percSketchInContourArea: sketchContourArea / featureArea,

@@ -41,7 +41,7 @@ const ContourCard = () => (
         //   },
         // },
         {
-          Header: "% of plan within islands 50-meter depth",
+          Header: "% of plan within islands' 50-meter depth",
           style: { textAlign: "center", fontSize: 14 },
           accessor: (row) => {
             const num = Percent.format(row.sketchArea / row.totalArea);
