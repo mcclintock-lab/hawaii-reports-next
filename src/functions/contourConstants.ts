@@ -4,17 +4,17 @@ export const islands = [
   {
     id: "bi",
     label: "Hawaii Island",
-    group: 1,
+    group: 0,
   },
   {
     id: "kh",
     label: "Kahoolawe",
-    group: 2,
+    group: 1,
   },
   {
     id: "mo",
     label: "Molokai",
-    group: 3,
+    group: 2,
   },
   {
     id: "la",
@@ -24,17 +24,17 @@ export const islands = [
   {
     id: "ma",
     label: "Maui",
-    group: 2,
+    group: 1,
   },
   {
     id: "kh",
     label: "Molokini",
-    group: 2,
+    group: 1,
   },
   {
     id: "oa",
     label: "Oahu",
-    group: 5,
+    group: 4,
   },
   {
     id: "ka",
@@ -44,6 +44,16 @@ export const islands = [
   {
     id: "ni",
     label: "Niihau",
-    group: 5,
+    group: 6,
   },
+];
+
+export const islandGroups = [
+  "Hawaii Island",
+  "Maui (w/ Kahoolawe and Molokini)",
+  "Molokai",
+  "Lanai",
+  "Oahu",
+  "Kauai",
+  "Niihau",
 ];

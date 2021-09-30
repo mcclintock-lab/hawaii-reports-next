@@ -24,28 +24,24 @@ const SizeCard = () => (
       );
       const percArea = data.area / STUDY_REGION_AREA_SQ_METERS;
       const percDisplay = Percent.format(percArea);
-      const areaUnitDisplay = "sq. km";
+      const areaUnitDisplay = "square kilometers";
 
       return (
         <>
+          <KeySection>
+            <p>
+              This plan is{" "}
+              <b>
+                {areaDisplay} {areaUnitDisplay}
+              </b>{" "}
+              in size.
+            </p>
+          </KeySection>
           <p>
             Marine management areas must be large enough to sustain focal
             species within their boundaries during their adult and juvenile life
             history phases. Different species move different distances as adults
             and juveniles, so larger areas may include more species.
-          </p>
-
-          <KeySection>
-            <p>
-              This plan is <b>{areaDisplay}</b> {areaUnitDisplay}, which is{" "}
-              <b>{percDisplay}</b> of state waters.
-            </p>
-          </KeySection>
-          <p>
-            <LayerToggle
-              layerId={"5e98c93635bdb2a5068611b5"}
-              label="Show State Waters Boundary Layer"
-            />
           </p>
         </>
       );

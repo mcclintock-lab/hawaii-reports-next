@@ -12,7 +12,6 @@ interface ReportProps {
 const Overview: FunctionComponent<ReportProps> = ({ hidden }) => {
   return (
     <div style={{ display: hidden ? "none" : "block" }}>
-      <SizeCard />
       <ContourCard />
       <MinWidthCard />
       <OverlapMpaCard />

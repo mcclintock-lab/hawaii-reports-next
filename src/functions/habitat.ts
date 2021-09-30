@@ -112,7 +112,7 @@ async function habitat(
 export default new GeoprocessingHandler(habitat, {
   title: "habitat",
   description: "Calculate habitat within feature",
-  timeout: 60, // seconds
+  timeout: 120, // seconds
   executionMode: "async",
   // Specify any Sketch Class form attributes that are required
   requiresProperties: [],
