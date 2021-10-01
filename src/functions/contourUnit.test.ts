@@ -1,5 +1,5 @@
 /**
- * @group unit
+ * @group e2e
  */
 import { contour } from "./contour";
 import { getExampleFeaturesByName } from "@seasketch/geoprocessing/scripts/testing";
