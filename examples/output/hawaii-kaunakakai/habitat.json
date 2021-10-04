@@ -23,7 +23,7 @@
       "D_STRUCT": "Pavement with Sand Channels",
       "totalArea": 74026265.937587,
       "percArea": 0.020294,
-      "sketchArea": 331262.578368
+      "sketchArea": 331262.614368
     },
     {
       "D_STRUCT": "Rubble",
@@ -35,7 +35,7 @@
       "D_STRUCT": "Pavement",
       "totalArea": 437918134.057044,
       "percArea": 0.120054,
-      "sketchArea": 864176.597871
+      "sketchArea": 864177.040155
     },
     {
       "D_STRUCT": "Artificial",
@@ -71,7 +71,7 @@
       "D_STRUCT": "Spur and Groove",
       "totalArea": 40659354.889432,
       "percArea": 0.011147,
-      "sketchArea": 66481.982344
+      "sketchArea": 66481.981929
     },
     {
       "D_STRUCT": "Individual Patch Reef",

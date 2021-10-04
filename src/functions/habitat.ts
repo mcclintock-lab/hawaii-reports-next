@@ -68,32 +68,25 @@ async function habitat(
   const sketchMulti = (combine(fc) as FeatureCollection<MultiPolygon>)
     .features[0];
 
+  // Intersect sketchMulti with habFeatures[] (lose properties)
+  // Group habFeatures by type, then intersect(sketchMulti, habFeaturesType)
+
   // Intersect habitat polys one at a time with dissolved feature, maintaining habitat properties
   try {
-    const clippedHabFeatures = habFeatures.reduce<HabitatFeature[]>(
-      (acc, hf) => {
-        const polyClipped = intersect(hf, sketchMulti, {
-          properties: hf.properties,
-        }) as HabitatFeature;
-        return polyClipped ? acc.concat(polyClipped) : acc;
-      },
-      []
-    );
-
-    // Sum total area by hab type within feature in square meters
-    const sumAreaByHabType = clippedHabFeatures.reduce<{
-      [key: string]: number;
-    }>((acc, poly) => {
-      const polyArea = area(poly);
-      return {
-        ...acc,
-        [poly.properties[HAB_TYPE_FIELD]]: acc.hasOwnProperty(
-          poly.properties[HAB_TYPE_FIELD]
-        )
-          ? acc[poly.properties[HAB_TYPE_FIELD]] + polyArea
-          : polyArea,
-      };
+    // Group habFeatures by type
+    const habFeaturesByType = habFeatures.reduce<
+      Record<string, HabitatFeature[]>
+    >((acc, hf) => {
+      const htf = hf.properties[HAB_TYPE_FIELD];
+      return { ...acc, [htf]: acc[htf] ? acc[htf].concat(hf) : [hf] };
     }, {});
+
+    // Bulk intersect each group
+    let sumAreaByHabType: Record<string, number> = {};
+    Object.keys(habFeaturesByType).map((hft) => {
+      const clippedMultipoly = intersect(sketchMulti, habFeaturesByType[hft]);
+      if (clippedMultipoly) sumAreaByHabType[hft] = area(clippedMultipoly);
+    });
 
     // Flatten into array response
     return {
