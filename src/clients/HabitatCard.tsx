@@ -5,10 +5,10 @@ import {
   Table,
   Column,
   LayerToggle,
+  KeySection,
 } from "@seasketch/geoprocessing/client";
 // import { STUDY_REGION_AREA_SQ_METERS } from "../functions/areaConstants";
 import { HAB_TYPE_FIELD } from "../functions/habitatConstants";
-import { KeySection } from "../components/KeySection";
 
 // Import type definitions from function
 import { HabitatResults, AreaStats } from "../functions/habitat";

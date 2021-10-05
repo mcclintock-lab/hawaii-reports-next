@@ -1,9 +1,13 @@
 import React from "react";
-import { ResultsCard, Table, Column } from "@seasketch/geoprocessing/client";
+import {
+  ResultsCard,
+  Table,
+  Column,
+  KeySection,
+} from "@seasketch/geoprocessing/client";
 
 // Import type definitions from function
 import { HumanImpactResults } from "../functions/humanImpact";
-import { KeySection } from "../components/KeySection";
 
 const HumanImpactCard = () => (
   <ResultsCard title="Human Impact" functionName="humanImpact">

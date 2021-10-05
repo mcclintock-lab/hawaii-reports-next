@@ -5,9 +5,9 @@ import {
   squareMeterToKilometer,
   Table,
   Column,
+  KeySection,
 } from "@seasketch/geoprocessing/client";
 import { TYPE_FIELD, islands } from "../functions/contourConstants";
-import { KeySection } from "../components/KeySection";
 
 // Import type definitions from function
 import { ContourResults, ContourAreaStats } from "../functions/contour";

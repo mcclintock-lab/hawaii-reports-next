@@ -4,12 +4,12 @@ import {
   Table,
   Column,
   roundDecimal,
+  KeySection,
 } from "@seasketch/geoprocessing/client";
 import styled from "styled-components";
 
 // Import type definitions from function
 import { FishRecoveryResults } from "../functions/fishRecovery";
-import { KeySection } from "../components/KeySection";
 
 const TableStyled = styled.div`
   .squeeze {

@@ -5,10 +5,10 @@ import {
   Column,
   Table,
   capitalize,
+  KeySection,
 } from "@seasketch/geoprocessing/client";
 import { BiomassResult, BiomassResults } from "../functions/biomass";
 import { regions, regionsById, REGION_ID } from "../region";
-import { KeySection } from "../components/KeySection";
 
 const Percent = new Intl.NumberFormat("en", {
   style: "percent",
